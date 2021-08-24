@@ -1,0 +1,12 @@
+{
+  "ID": "18cb89b2-17a1-4bc0-bd69-8edc3fe84728",
+  "ActionKeyword": "st",
+  "Name": "Steam Launcher",
+  "Description": "Search and launch your Steam Game library",
+  "Author": "Garulf",
+  "Version": "1.0",
+  "Language": "python",
+  "Website": "https://github.com/Garulf/flow-steam",
+  "IcoPath": "icon\\steam-icon.png",
+  "ExecuteFileName": "main.py"
+}
