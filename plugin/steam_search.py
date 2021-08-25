@@ -8,13 +8,14 @@ from pathlib import Path
 import vdf
 from flox import Flox
 
-STEAM_FOLDER = os.path.join(f"{os.environ['SYSTEMDRIVE']}\\", "Program Files (x86)", "Steam")
+STEAM_FOLDER = os.path.join(
+    f"{os.environ['SYSTEMDRIVE']}\\", "Program Files (x86)", "Steam"
+)
 LIBRARIES = os.path.join(STEAM_FOLDER, "config", "libraryfolders.vdf")
 EXE_FILTER = ["installer", "help", "skse64_loader.exe"]
 
 
 class SteamSearch(Flox):
-
     def __init__(self):
         self._steam_folder = None
         self._steam_libraries = None
@@ -58,7 +59,7 @@ class SteamSearch(Flox):
                     self.logger.info(file)
                     return str(file)
         self.logger.info(first_exe)
-        
+
         return str(first_exe)
 
     def add_manifest(self, file, path):
@@ -67,26 +68,33 @@ class SteamSearch(Flox):
         except SyntaxError:
             pass
         else:
-            install_dir = Path(path).joinpath("steamapps", "common", manifest["AppState"]["installdir"])
+            install_dir = Path(path).joinpath(
+                "steamapps", "common", manifest["AppState"]["installdir"]
+            )
             self.games.append(
                 {
                     "id": manifest["AppState"]["appid"],
                     "name": manifest["AppState"]["name"],
-                    "install_dir": str(install_dir)
+                    "install_dir": str(install_dir),
                 }
             )
-
 
     def grab_icon(self, game_title, app_dir):
         game_icon = "./icon/steam-icon.png"
         try:
             for game_file in os.scandir(app_dir):
-                if game_file.name.lower().startswith(game_title.lower()[0]) and game_file.name.endswith('.exe'):
-                    game_icon = f'{app_dir}\{game_file.name}'
+                if game_file.name.lower().startswith(
+                    game_title.lower()[0]
+                ) and game_file.name.endswith(".exe"):
+                    game_icon = f"{app_dir}\{game_file.name}"
                     break
             for game_file in os.scandir(app_dir):
-                if game_file.name.endswith('.exe') and 'crash' not in game_file.name.lower() and 'loader' not in game_file.name.lower():
-                    game_icon = f'{app_dir}\{game_file.name}'
+                if (
+                    game_file.name.endswith(".exe")
+                    and "crash" not in game_file.name.lower()
+                    and "loader" not in game_file.name.lower()
+                ):
+                    game_icon = f"{app_dir}\{game_file.name}"
                     break
         except FileNotFoundError:
             pass
