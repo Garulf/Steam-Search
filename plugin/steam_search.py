@@ -13,7 +13,7 @@ LIBRARIES = os.path.join(STEAM_FOLDER, "config", "libraryfolders.vdf")
 EXE_FILTER = ["installer", "help", "skse64_loader.exe"]
 
 
-class SteamLauncher(Flox):
+class SteamSearch(Flox):
 
     def __init__(self):
         self._steam_folder = None
@@ -112,4 +112,4 @@ class SteamLauncher(Flox):
 
 
 if __name__ == "__main__":
-    SteamLauncher()
+    SteamSearch()
