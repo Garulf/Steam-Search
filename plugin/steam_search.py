@@ -110,7 +110,11 @@ class SteamSearch(Flox):
             if match:
                 icon = self.find_icon(game["install_dir"], game["name"])
                 self.add_item(
-                    title=game["name"], subtitle=game["install_dir"], icon=icon
+                    title=game["name"],
+                    subtitle=game["install_dir"],
+                    icon=icon,
+                    method='launch_game',
+                    parameters=[game["id"]]
                 )
 
     def launch_game(self, game_id):
