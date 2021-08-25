@@ -1,0 +1,13 @@
+name: "test"
+on:
+  workflow_dispatch:
+jobs:
+  deps:
+    name: "test"
+    runs-on: ubuntu-latest
+    steps:
+      - name: Delete previous drafts
+        uses: Garulf/delete-preleases@main
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
