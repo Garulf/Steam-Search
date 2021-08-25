@@ -1,1 +1,2 @@
-flowlauncher==0.1.1
+git+git://github.com/garulf/flox@v0.3.1#egg=flox
+vdf==3.4
