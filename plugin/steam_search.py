@@ -20,6 +20,7 @@ class SteamSearch(Flox):
         self._steam_folder = None
         self._steam_libraries = None
         self._library_paths = None
+        self._steam_folder = STEAM_FOLDER
         self.games = []
         super().__init__()
 
@@ -39,6 +40,9 @@ class SteamSearch(Flox):
                     library_paths.append(
                         library_folders["libraryfolders"][item]["path"]
                     )
+            library_paths.append(
+                self._steam_folder
+            )
             self._library_paths = library_paths
         return self._library_paths
 
@@ -49,16 +53,13 @@ class SteamSearch(Flox):
 
     def find_icon(self, install_dir, name):
         first_exe = None
-        self.logger.info(install_dir)
         game_files = Path(install_dir).glob("**/*.exe")
         for file in game_files:
             if file.name.lower() not in EXE_FILTER:
                 if first_exe is None:
                     first_exe = file
                 if str(file.name).lower().startswith(name[0].lower()):
-                    self.logger.info(file)
                     return str(file)
-        self.logger.info(first_exe)
 
         return str(first_exe)
 
