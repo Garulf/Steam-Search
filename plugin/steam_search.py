@@ -34,7 +34,11 @@ class SteamSearch(Flox):
     @property
     def library_paths(self):
         if self._library_paths is None:
-            steam_libraries = LIBRARIES_CONFIG if Path(LIBRARIES_CONFIG).exists() else LIBRARIES_STEAMAPPS
+            steam_libraries = (
+                LIBRARIES_CONFIG
+                if Path(LIBRARIES_CONFIG).exists()
+                else LIBRARIES_STEAMAPPS
+            )
             library_paths = [self._steam_folder]
             try:
                 library_folders = vdf.load(open(steam_libraries, "r"))
@@ -52,13 +56,10 @@ class SteamSearch(Flox):
                                 library_folders[libraries_key][item]["path"]
                             )
                         except TypeError:
-                            library_paths.append(
-                                library_folders[libraries_key][item]
-                            )
+                            library_paths.append(library_folders[libraries_key][item])
 
             self._library_paths = library_paths
         return self._library_paths
-
 
     def load_games(self):
         for path in self.library_paths:
