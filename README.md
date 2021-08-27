@@ -2,7 +2,7 @@
 # Steam Search
 Search and launch your Steam Game library
 
-Steam Search assumes a Steam installion in `C:\Program Files (x86)\Steam`. This will be improved in later versions.
+Steam Search assumes Steam is located at `C:\Program Files (x86)\Steam`. This will be improved in later versions.
 ## Features
 
 * Launch games straight from your launcher
