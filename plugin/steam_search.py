@@ -120,8 +120,8 @@ class SteamSearch(Flox):
                     title=game["name"],
                     subtitle=game["install_dir"],
                     icon=icon,
-                    method='launch_game',
-                    parameters=[game["id"]]
+                    method="launch_game",
+                    parameters=[game["id"]],
                 )
 
     def launch_game(self, game_id):
