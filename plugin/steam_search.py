@@ -11,7 +11,8 @@ from flox import Flox
 STEAM_FOLDER = os.path.join(
     f"{os.environ['SYSTEMDRIVE']}\\", "Program Files (x86)", "Steam"
 )
-LIBRARIES = os.path.join(STEAM_FOLDER, "config", "libraryfolders.vdf")
+LIBRARIES_CONFIG = os.path.join(STEAM_FOLDER, "config", "libraryfolders.vdf")
+LIBRARIES_STEAMAPPS = os.path.join(STEAM_FOLDER, "steamapps", "libraryfolders.vdf")
 EXE_FILTER = ["installer", "help", "skse64_loader.exe"]
 
 
@@ -33,16 +34,21 @@ class SteamSearch(Flox):
     @property
     def library_paths(self):
         if self._library_paths is None:
-            library_paths = []
-            library_folders = vdf.load(open(LIBRARIES, "r"))
-            for item in library_folders["libraryfolders"].keys():
-                if not isinstance(library_folders["libraryfolders"][item], str):
-                    library_paths.append(
-                        library_folders["libraryfolders"][item]["path"]
-                    )
-            library_paths.append(
-                self._steam_folder
-            )
+            library_paths = [self._steam_folder]
+            if Path(LIBRARIES_CONFIG).exists():
+                steamlibrary_config = LIBRARIES_CONFIG
+            else:
+                steamlibrary_config = LIBRARIES_STEAMAPPS
+            try:
+                library_folders = vdf.load(open(steamlibrary_config, "r"))
+            except FileNotFoundError:
+                pass
+            else:
+                for item in library_folders["libraryfolders"].keys():
+                    if not isinstance(library_folders["libraryfolders"][item], str):
+                        library_paths.append(
+                            library_folders["libraryfolders"][item]["path"]
+                        )
             self._library_paths = library_paths
         return self._library_paths
 
@@ -114,8 +120,8 @@ class SteamSearch(Flox):
                     title=game["name"],
                     subtitle=game["install_dir"],
                     icon=icon,
-                    method='launch_game',
-                    parameters=[game["id"]]
+                    method="launch_game",
+                    parameters=[game["id"]],
                 )
 
     def launch_game(self, game_id):
