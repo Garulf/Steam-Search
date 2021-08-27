@@ -34,12 +34,15 @@ class SteamSearch(Flox):
     def library_paths(self):
         if self._library_paths is None:
             library_paths = []
-            library_folders = vdf.load(open(LIBRARIES, "r"))
-            for item in library_folders["libraryfolders"].keys():
-                if not isinstance(library_folders["libraryfolders"][item], str):
-                    library_paths.append(
-                        library_folders["libraryfolders"][item]["path"]
-                    )
+            try:
+                library_folders = vdf.load(open(LIBRARIES, "r"))
+                for item in library_folders["libraryfolders"].keys():
+                    if not isinstance(library_folders["libraryfolders"][item], str):
+                        library_paths.append(
+                            library_folders["libraryfolders"][item]["path"]
+                        )
+            except FileNotFoundError:
+                pass
             library_paths.append(
                 self._steam_folder
             )
