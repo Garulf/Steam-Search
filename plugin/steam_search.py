@@ -43,9 +43,7 @@ class SteamSearch(Flox):
                         )
             except FileNotFoundError:
                 pass
-            library_paths.append(
-                self._steam_folder
-            )
+            library_paths.append(self._steam_folder)
             self._library_paths = library_paths
         return self._library_paths
 
@@ -117,8 +115,8 @@ class SteamSearch(Flox):
                     title=game["name"],
                     subtitle=game["install_dir"],
                     icon=icon,
-                    method='launch_game',
-                    parameters=[game["id"]]
+                    method="launch_game",
+                    parameters=[game["id"]],
                 )
 
     def launch_game(self, game_id):
