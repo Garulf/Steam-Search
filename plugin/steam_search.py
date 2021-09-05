@@ -8,8 +8,10 @@ from pathlib import Path
 import vdf
 from flox import Flox
 
+DEFAULT_DRIVE = "C:"
+SYSTEM_DRIVE = os.environ.get("SYSTEMDRIVE", DEFAULT_DRIVE)
 STEAM_FOLDER = os.path.join(
-    f"{os.environ['SYSTEMDRIVE']}\\", "Program Files (x86)", "Steam"
+    f"{SYSTEM_DRIVE}\\", "Program Files (x86)", "Steam"
 )
 LIBRARIES_CONFIG = os.path.join(STEAM_FOLDER, "config", "libraryfolders.vdf")
 LIBRARIES_STEAMAPPS = os.path.join(STEAM_FOLDER, "steamapps", "libraryfolders.vdf")
