@@ -83,7 +83,7 @@ class SteamSearch(Flox):
     def add_manifest(self, file, path):
         try:
             manifest = vdf.load(open(file))
-        except SyntaxError, UnicodeDecodeError:
+        except (SyntaxError, UnicodeDecodeError):
             self.logger.debug(f"Error loading {path}, {file}")
             pass
         else:
