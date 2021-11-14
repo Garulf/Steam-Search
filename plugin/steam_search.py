@@ -5,12 +5,13 @@ import re
 import webbrowser
 from pathlib import Path
 
+from helper import STEAM_PATH
 import vdf
 from flox import Flox
 
 DEFAULT_DRIVE = "C:"
 SYSTEM_DRIVE = os.environ.get("SYSTEMDRIVE", DEFAULT_DRIVE)
-STEAM_FOLDER = os.path.join(
+STEAM_FOLDER = STEAM_PATH or os.path.join(
     f"{SYSTEM_DRIVE}\\", "Program Files (x86)", "Steam"
 )
 LIBRARIES_CONFIG = os.path.join(STEAM_FOLDER, "config", "libraryfolders.vdf")
