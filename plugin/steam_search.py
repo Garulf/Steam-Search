@@ -99,25 +99,12 @@ class SteamSearch(Flox):
                 }
             )
 
-    def grab_icon(self, game_title, app_dir):
+    def grab_icon(self, id):
         game_icon = "./icon/steam-icon.png"
-        try:
-            for game_file in os.scandir(app_dir):
-                if game_file.name.lower().startswith(
-                    game_title.lower()[0]
-                ) and game_file.name.endswith(".exe"):
-                    game_icon = f"{app_dir}\{game_file.name}"
-                    break
-            for game_file in os.scandir(app_dir):
-                if (
-                    game_file.name.endswith(".exe")
-                    and "crash" not in game_file.name.lower()
-                    and "loader" not in game_file.name.lower()
-                ):
-                    game_icon = f"{app_dir}\{game_file.name}"
-                    break
-        except FileNotFoundError:
-            pass
+        icon_name = f"{id}_icon.jpg"
+        icon_path = os.path.join(self._steam_folder, "appcache", "librarycache", icon_name)
+        if os.path.exists(icon_path):
+            return icon_path
         return game_icon
 
     def query(self, query):
@@ -128,7 +115,7 @@ class SteamSearch(Flox):
         for game in self.games:
             match = regex.search(game["name"].lower())
             if match:
-                icon = self.find_icon(game["install_dir"], game["name"])
+                icon = self.grab_icon(game["id"])
                 self.add_item(
                     title=game["name"],
                     subtitle=game["install_dir"],
