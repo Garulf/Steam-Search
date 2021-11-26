@@ -30,6 +30,13 @@ class Steam(object):
                     pass
         return self._steam_path
 
+    def all_games(self):
+        games = []
+        for library in self.libraries():
+            for game in library.games():
+                games.append(game)
+        return games
+
     def libraries(self):
         if self.steam_path is None:
             return []
