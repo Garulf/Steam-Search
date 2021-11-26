@@ -41,12 +41,17 @@ class SteamSearch(Flox):
             parameters=[game_id] 
         )
         self.add_item(
+            title="Show News",
+            subtitle="Opens game's news page in Steam",
+            method="launch_news",
+            parameters=[game_id] 
+        )
+        self.add_item(
             title="Uninstall Game",
             subtitle="Uninstall this game from your Steam library",
             method="uninstall_game",
             parameters=[game_id] 
         )
-        
 
     def launch_game(self, game_id):
         webbrowser.open("steam://rungameid/{}".format(game_id))
@@ -57,6 +62,8 @@ class SteamSearch(Flox):
     def uninstall_game(self, game_id):
         webbrowser.open("steam://uninstall/{}".format(game_id))
 
+    def launch_news(self, game_id):
+        webbrowser.open("steam://appnews/{}".format(game_id))
 
 if __name__ == "__main__":
     SteamSearch()
