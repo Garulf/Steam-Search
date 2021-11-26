@@ -17,7 +17,7 @@ STEAMAPPS_FOLDER = 'steamapps'
 
 class Steam(object):
 
-    def __init__(self):
+    def __init__(self, steam_path=None):
         self._steam_path = None
 
     @property
