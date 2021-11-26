@@ -32,6 +32,15 @@ class SteamSearch(Flox):
                     context=[game.id] 
                 )
 
+    def context_menu(self, data):
+        game_id = data[0]
+        self.add_item(
+            title="Show in Steam store",
+            subtitle="Opens Steam store page for selected game",
+            method="launch_store",
+            parameters=[game_id] 
+        )
+
     def launch_game(self, game_id):
         webbrowser.open("steam://rungameid/{}".format(game_id))
 
