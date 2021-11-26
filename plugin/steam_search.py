@@ -36,7 +36,7 @@ class SteamSearch(Flox):
         game_id = data[0]
         self.add_item(
             title="Show in Steam store",
-            subtitle="Opens Steam store page for selected game",
+            subtitle="Opens game's Steam store page",
             method="launch_store",
             parameters=[game_id] 
         )
