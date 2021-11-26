@@ -79,7 +79,7 @@ class SteamLibrary(object):
         for manifest in self._library_path.joinpath(STEAMAPPS_FOLDER).glob('*.acf'):
             try:
                 _game_manifest = vdf.load(open(manifest, 'r'))
-                game = SteamGame(_game_manifest["AppState"]["appid"], _game_manifest["AppState"]["name"], self._steam_path, self._library_path)
+                game = SteamGame(_game_manifest["AppState"]["appid"], _game_manifest["AppState"]["name"], _game_manifest["AppState"]["installdir"], self._steam_path, self._library_path)
             except FileNotFoundError:
                 pass
             except SyntaxError:
@@ -91,10 +91,12 @@ class SteamLibrary(object):
 class SteamGame(object):
     """Represents a steam game"""
     
-    def __init__(self, id, name, steam_path, library_path):
+    def __init__(self, id, name, installdir, steam_path, library_path):
         self.id = id
-        self.name = name
+        self.name = name.replace('â„¢', '')
+        self.installdir = installdir
         self.steam_path = steam_path
+        self.library_path = library_path
         self._appcache_path = Path(self.steam_path).joinpath("appcache", "librarycache")
 
     def icon(self):
@@ -109,10 +111,5 @@ class SteamGame(object):
     def run_game_url(self):
         return f'steam://rumgameid/{self.id}'
 
-
-
-if __name__ == "__main__":
-    steam = Steam()
-    for libs in steam.libraries():
-        for game in libs.games():
-            print(game.name)
+    def install_path(self):
+        return self.library_path.joinpath('steamapps', 'common', self.installdir)
