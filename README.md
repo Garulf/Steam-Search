@@ -14,6 +14,7 @@ Simply type `st` to start searching your steam library
 # Installation:
 
 ### Flow Lancher:
+![Flow_launcher - Copy](https://user-images.githubusercontent.com/535299/145102800-c6c46331-c9e2-4aa4-b492-be219b0b41ff.png)
 
 Simply type `pm install steam search` to have the plugin installed
 
