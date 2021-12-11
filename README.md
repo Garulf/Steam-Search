@@ -2,16 +2,19 @@
 # Steam Search
 Search and launch your Steam Game library
 
-Steam Search assumes Steam is located at `C:\Program Files (x86)\Steam`. This will be improved in later versions.
+Simply type `st` to start searching your steam library
+
+
 ## Features
 
 * Launch games straight from your launcher
 * Multiple library support
-* Minimal setup and configuration needed
+* Minimal setup and configuration needed (Steam search automatically locates your Steam library!)
 
 # Installation:
 
 ### Flow Lancher:
+![Flow_launcher - Copy](https://user-images.githubusercontent.com/535299/145102800-c6c46331-c9e2-4aa4-b492-be219b0b41ff.png)
 
 Simply type `pm install steam search` to have the plugin installed
 
