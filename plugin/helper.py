@@ -45,7 +45,7 @@ class Steam(object):
         if not libraries_manifest_path.exists():
             return []
         try:
-            library_folders = vdf.load(open(libraries_manifest_path, 'r'))
+            library_folders = vdf.load(open(libraries_manifest_path, 'r', encoding='utf-8', errors='ignore'))
         except FileNotFoundError:
             pass
         else:
@@ -78,7 +78,7 @@ class SteamLibrary(object):
         games = []
         for manifest in self._library_path.joinpath(STEAMAPPS_FOLDER).glob('*.acf'):
             try:
-                _game_manifest = vdf.load(open(manifest, 'r'))
+                _game_manifest = vdf.load(open(manifest, 'r', encoding='utf-8', errors='ignore'))
                 game = SteamGame(_game_manifest["AppState"]["appid"], _game_manifest["AppState"]["name"], _game_manifest["AppState"]["installdir"], self._steam_path, self._library_path)
             except FileNotFoundError:
                 pass
