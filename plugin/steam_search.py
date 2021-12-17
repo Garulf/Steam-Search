@@ -7,15 +7,15 @@ from pathlib import Path
 
 from helper import Steam
 
-from flox import Flox
+from flox import Flox, Launcher
 
 
 class SteamSearch(Flox):
-    def __init__(self):
-        self._steam = Steam()
-        super().__init__()
 
     def query(self, query):
+        self._steam = Steam(self.settings.get('steam_path'))
+        if self.settings.get('steam_path') is None:
+            self.settings['steam_path'] = str(self._steam.steam_path)
         games = self._steam.all_games()
         q = query.lower()
         pattern = ".*?".join(q)
