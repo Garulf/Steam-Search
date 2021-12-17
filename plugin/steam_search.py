@@ -5,18 +5,27 @@ import re
 import webbrowser
 from pathlib import Path
 
-from helper import Steam
+from helper import Steam, SteamLibraryNotFound, SteamExecutableNotFound
 
-from flox import Flox
+from flox import Flox, Launcher, ICON_SETTINGS
 
 
 class SteamSearch(Flox):
-    def __init__(self):
-        self._steam = Steam()
-        super().__init__()
 
     def query(self, query):
-        games = self._steam.all_games()
+        try:
+            self._steam = Steam(self.settings.get('steam_path'))
+            if self.settings.get('steam_path') is None or self.settings.get('steam_path') == '':
+                self.settings['steam_path'] = str(self._steam.steam_path)
+            games = self._steam.all_games()
+        except (SteamLibraryNotFound, SteamExecutableNotFound):
+            self.add_item(
+                title="Steam library not found!",
+                subtitle="Please set your Steam library path in the settings",
+                method=self.open_setting_dialog,
+                icon=ICON_SETTINGS
+            )
+            return
         q = query.lower()
         pattern = ".*?".join(q)
         regex = re.compile(pattern)
