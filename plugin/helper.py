@@ -18,17 +18,26 @@ STEAMAPPS_FOLDER = 'steamapps'
 class Steam(object):
 
     def __init__(self, steam_path=None):
-        self._steam_path = None
+        self._steam_path = Path(steam_path)
 
     @property
     def steam_path(self):
         if self._steam_path is None:
-            with reg.OpenKey(HKEY_LOCAL_MACHINE, STEAM_SUB_KEY) as hkey:
-                try:
-                    self._steam_path = Path(reg.QueryValueEx(hkey, "InstallPath")[0])
-                except FileNotFoundError:
-                    pass
+            path = self._steam_registry()
+            if path is not None:
+                self._steam_path = path
+            elif Path(DEFAULT_STEAM_PATH).exists():
+                self._steam_path = Path(DEFAULT_STEAM_PATH)
+            else:
+                self._steam_path = None
         return self._steam_path
+
+    def _steam_registry(self):
+        try:
+            with reg.OpenKey(HKEY_LOCAL_MACHINE, STEAM_SUB_KEY) as hkey:
+                return Path(reg.QueryValueEx(hkey, "InstallPath")[0])
+        except FileNotFoundError:
+            return None
 
     def all_games(self):
         games = []
