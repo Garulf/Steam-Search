@@ -7,6 +7,7 @@ import vdf
 STEAM_SUB_KEY = r'SOFTWARE\WOW6432Node\Valve\Steam'
 
 DEFAULT_STEAM_PATH = r"c:\Program Files (x86)\Steam"
+STEAM_EXE = "steam.exe"
 LIBRARY_CACHE_EXT = '.jpg'
 ICON_SUFFIX = '_icon'
 HEADER_SUFFIX = '_header'
@@ -15,27 +16,44 @@ LIBRARY_HERO_SUFFIX = '_library_hero'
 STEAMAPPS_FOLDER = 'steamapps'
 
 
+class SteamExecutableNotFound(Exception):
+    def __init__(self, path) -> None:
+        message = f'Could not locate steam.exe at: {path}'
+        super().__init__(message)
+class SteamLibraryNotFound(Exception):
+
+    def __init__(self, path) -> None:
+        message = f'Could not find Steam libraries manifest ("libraryfolders.vdf") at: {path}'
+        super().__init__(message)
+
 class Steam(object):
 
     def __init__(self, steam_path=None):
-        self._steam_path = Path(steam_path)
+        self._check_steam_exe(steam_path)
+        self._steam_path = steam_path
+
 
     @property
     def steam_path(self):
-        if self._steam_path is None:
+        if not self._steam_path:
             path = self._steam_registry()
             if path is not None:
                 self._steam_path = path
             elif Path(DEFAULT_STEAM_PATH).exists():
-                self._steam_path = Path(DEFAULT_STEAM_PATH)
+                self._steam_path = DEFAULT_STEAM_PATH
             else:
                 self._steam_path = None
-        return self._steam_path
+            self._check_steam_exe(self._steam_path)
+        return Path(self._steam_path)
+
+    def _check_steam_exe(self, path):
+        if not Path(path, STEAM_EXE).exists():
+                raise SteamExecutableNotFound(Path(path, STEAM_EXE))
 
     def _steam_registry(self):
         try:
             with reg.OpenKey(HKEY_LOCAL_MACHINE, STEAM_SUB_KEY) as hkey:
-                return Path(reg.QueryValueEx(hkey, "InstallPath")[0])
+                return reg.QueryValueEx(hkey, "InstallPath")[0]
         except FileNotFoundError:
             return None
 
@@ -52,7 +70,7 @@ class Steam(object):
         libraries = []
         libraries_manifest_path = self.steam_path.joinpath('steamapps', 'libraryfolders.vdf')
         if not libraries_manifest_path.exists():
-            return []
+            raise SteamLibraryNotFound(libraries_manifest_path)
         try:
             library_folders = vdf.load(open(libraries_manifest_path, 'r', encoding='utf-8', errors='ignore'))
         except FileNotFoundError:

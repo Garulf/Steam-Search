@@ -1,0 +1,12 @@
+body:
+  - type: textBlock
+    attributes:
+      name: description
+      description: >
+        Search and launch you Steam games library!
+  - type: input
+    attributes:
+      name: steam_path
+      label: 'Steam Executable Directory:'
+      description: Location of steam.exe
+      defaultValue: ""
