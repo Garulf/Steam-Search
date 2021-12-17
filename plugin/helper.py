@@ -29,7 +29,10 @@ class SteamLibraryNotFound(Exception):
 class Steam(object):
 
     def __init__(self, steam_path=None):
-        self._check_steam_exe(steam_path)
+        if steam_path == "":
+            steam_path = None
+        else:
+            self._check_steam_exe(steam_path)
         self._steam_path = steam_path
 
 
