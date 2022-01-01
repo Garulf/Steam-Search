@@ -26,7 +26,7 @@ class SteamSearch(Flox):
                 icon=ICON_SETTINGS
             )
             return
-        q = query.lower()
+        q = query.lower().replace('\\', '')
         pattern = ".*?".join(q)
         regex = re.compile(pattern)
         for game in games:
