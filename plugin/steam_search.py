@@ -1,13 +1,10 @@
 # -*- coding: utf-8 -*-
-import json
-import os
 import re
 import webbrowser
-from pathlib import Path
 
 from helper import Steam, SteamLibraryNotFound, SteamExecutableNotFound
 
-from flox import Flox, Launcher, ICON_SETTINGS
+from flox import Flox, ICON_SETTINGS
 
 
 class SteamSearch(Flox):
