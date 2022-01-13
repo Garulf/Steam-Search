@@ -1,5 +1,4 @@
 # -*- coding: utf-8 -*-
-import re
 import webbrowser
 
 from helper import Steam, SteamLibraryNotFound, SteamExecutableNotFound
@@ -23,12 +22,9 @@ class SteamSearch(Flox):
                 icon=ICON_SETTINGS
             )
             return
-        q = query.lower().replace('\\', '')
-        pattern = ".*?".join(q)
-        regex = re.compile(pattern)
+        q = query.lower()
         for game in games:
-            match = regex.search(game.name.lower())
-            if match: 
+            if q in game.name.lower(): 
                 self.add_item(
                     title=game.name,
                     subtitle=str(game.install_path()),
