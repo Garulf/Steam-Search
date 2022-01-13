@@ -28,37 +28,23 @@ class SteamLibraryNotFound(Exception):
 
 class Steam(object):
 
-    def __init__(self, steam_path=None):
-        if steam_path == "":
-            steam_path = None
-        else:
-            self._check_steam_exe(steam_path)
-        self._steam_path = steam_path
-
-
-    @property
-    def steam_path(self):
-        if not self._steam_path:
-            path = self._steam_registry()
-            if path is not None:
-                self._steam_path = path
-            elif Path(DEFAULT_STEAM_PATH).exists():
-                self._steam_path = DEFAULT_STEAM_PATH
-            else:
-                self._steam_path = None
-            self._check_steam_exe(self._steam_path)
-        return Path(self._steam_path)
+    def __init__(self, steam_path=""):
+        if steam_path == "" or steam_path is None:
+            try:
+                steam_path = self._steam_registry()
+            except FileNotFoundError:
+                steam_path = DEFAULT_STEAM_PATH
+        self._check_steam_exe(steam_path)
+        self.steam_path = steam_path
 
     def _check_steam_exe(self, path):
         if not Path(path, STEAM_EXE).exists():
-                raise SteamExecutableNotFound(Path(path, STEAM_EXE))
+            raise SteamExecutableNotFound(Path(path, STEAM_EXE))
 
     def _steam_registry(self):
-        try:
-            with reg.OpenKey(HKEY_LOCAL_MACHINE, STEAM_SUB_KEY) as hkey:
-                return reg.QueryValueEx(hkey, "InstallPath")[0]
-        except FileNotFoundError:
-            return None
+        with reg.OpenKey(HKEY_LOCAL_MACHINE, STEAM_SUB_KEY) as hkey:
+            return reg.QueryValueEx(hkey, "InstallPath")[0]
+
 
     def all_games(self):
         games = []
@@ -71,7 +57,7 @@ class Steam(object):
         if self.steam_path is None:
             return []
         libraries = []
-        libraries_manifest_path = self.steam_path.joinpath('steamapps', 'libraryfolders.vdf')
+        libraries_manifest_path = Path(self.steam_path, 'steamapps', 'libraryfolders.vdf')
         if not libraries_manifest_path.exists():
             raise SteamLibraryNotFound(libraries_manifest_path)
         try:

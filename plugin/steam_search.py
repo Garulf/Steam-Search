@@ -1,20 +1,16 @@
 # -*- coding: utf-8 -*-
-import json
-import os
-import re
 import webbrowser
-from pathlib import Path
 
 from helper import Steam, SteamLibraryNotFound, SteamExecutableNotFound
 
-from flox import Flox, Launcher, ICON_SETTINGS
+from flox import Flox, ICON_SETTINGS
 
 
 class SteamSearch(Flox):
 
     def query(self, query):
         try:
-            self._steam = Steam(self.settings.get('steam_path'))
+            self._steam = Steam(self.settings.get('steam_path', ''))
             if self.settings.get('steam_path') is None or self.settings.get('steam_path') == '':
                 self.settings['steam_path'] = str(self._steam.steam_path)
             games = self._steam.all_games()
@@ -26,12 +22,9 @@ class SteamSearch(Flox):
                 icon=ICON_SETTINGS
             )
             return
-        q = query.lower().replace('\\', '')
-        pattern = ".*?".join(q)
-        regex = re.compile(pattern)
+        q = query.lower()
         for game in games:
-            match = regex.search(game.name.lower())
-            if match: 
+            if q in game.name.lower(): 
                 self.add_item(
                     title=game.name,
                     subtitle=str(game.install_path()),
