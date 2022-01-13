@@ -30,7 +30,10 @@ class Steam(object):
 
     def __init__(self, steam_path=""):
         if steam_path == "" or steam_path is None:
-            steam_path = self._steam_registry()
+            try:
+                steam_path = self._steam_registry()
+            except FileNotFoundError:
+                steam_path = DEFAULT_STEAM_PATH
         self._check_steam_exe(steam_path)
         self.steam_path = steam_path
 
@@ -39,11 +42,9 @@ class Steam(object):
             raise SteamExecutableNotFound(Path(path, STEAM_EXE))
 
     def _steam_registry(self):
-        try:
-            with reg.OpenKey(HKEY_LOCAL_MACHINE, STEAM_SUB_KEY) as hkey:
-                return reg.QueryValueEx(hkey, "InstallPath")[0]
-        except FileNotFoundError:
-            return None
+        with reg.OpenKey(HKEY_LOCAL_MACHINE, STEAM_SUB_KEY) as hkey:
+            return reg.QueryValueEx(hkey, "InstallPath")[0]
+
 
     def all_games(self):
         games = []
