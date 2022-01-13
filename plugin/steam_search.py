@@ -10,7 +10,7 @@ class SteamSearch(Flox):
 
     def query(self, query):
         try:
-            self._steam = Steam(self.settings.get('steam_path'))
+            self._steam = Steam(self.settings.get('steam_path', ''))
             if self.settings.get('steam_path') is None or self.settings.get('steam_path') == '':
                 self.settings['steam_path'] = str(self._steam.steam_path)
             games = self._steam.all_games()
