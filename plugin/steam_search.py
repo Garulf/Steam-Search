@@ -9,6 +9,7 @@ from flox import Flox, ICON_SETTINGS
 class SteamSearch(Flox):
 
     def query(self, query):
+        self.logger
         try:
             self._steam = Steam(self.settings.get('steam_path', ''))
             if self.settings.get('steam_path') is None or self.settings.get('steam_path') == '':
