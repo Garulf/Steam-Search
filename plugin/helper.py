@@ -1,4 +1,5 @@
 from pathlib import Path
+import logging
 import winreg as reg
 from winreg import HKEY_CURRENT_USER, HKEY_LOCAL_MACHINE
 
@@ -14,6 +15,8 @@ HEADER_SUFFIX = '_header'
 LIBRARY_SUFFIX = '_library_600x900'
 LIBRARY_HERO_SUFFIX = '_library_hero'
 STEAMAPPS_FOLDER = 'steamapps'
+
+logger = logging.getLogger(__name__)
 
 
 class SteamExecutableNotFound(Exception):
@@ -63,7 +66,7 @@ class Steam(object):
         try:
             library_folders = vdf.load(open(libraries_manifest_path, 'r', encoding='utf-8', errors='ignore'))
         except FileNotFoundError:
-            pass
+            logging.warning(f'Could not find Steam libraries manifest ("libraryfolders.vdf") at: {libraries_manifest_path}')
         else:
             if library_folders.get('libraryfolders'):
                 libraries_key = 'libraryfolders'
@@ -93,12 +96,20 @@ class SteamLibrary(object):
     def games(self):
         games = []
         for manifest in self._library_path.joinpath(STEAMAPPS_FOLDER).glob('*.acf'):
+            logger.debug(f'Found manifest: {manifest}')
             try:
-                _game_manifest = vdf.load(open(manifest, 'r', encoding='utf-8', errors='ignore'))
+                with open(manifest, 'r', encoding='utf-8', errors='ignore') as f:
+                    raw_manifest = f.read()
+                _game_manifest = vdf.loads(raw_manifest)
                 game = SteamGame(_game_manifest["AppState"]["appid"], _game_manifest["AppState"]["name"], _game_manifest["AppState"]["installdir"], self._steam_path, self._library_path)
             except FileNotFoundError:
-                pass
+                logging.warning(f'Could not find game manifest ("{manifest}")')
+                continue
             except SyntaxError:
+                logging.warning(f'Could not parse game manifest ("{manifest}")')
+                continue
+            except KeyError:
+                logging.warning(f'Unable to parse game manifest ("{manifest}")\n{raw_manifest}')
                 continue
             else:
                 games.append(game)
