@@ -59,8 +59,9 @@ class Steam(object):
         vdf = VDF(file_path)
         loginusers = LoginUsers()
         for user in vdf['users']:
-            if vdf['users'][user].get('Mostrecent'):
-                vdf['users'][user]['MostRecent'] = vdf['users'][user].pop('Mostrecent')
+            # Sometimes Steam uses all lowercase for MostRecent. No idea why.
+            if vdf['users'][user].get('mostrecent'):
+                vdf['users'][user]['MostRecent'] = vdf['users'][user].pop('mostrecent')
             loginusers.append(
                 LoginUser(ID=user, steam_path=self.path, **vdf['users'][user])
             )
