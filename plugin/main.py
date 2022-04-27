@@ -11,9 +11,9 @@ class SteamSearch(Flox):
     def query(self, query):
         self.logger
         try:
-            self._steam = Steam(self.settings.get('steam_path', ''))
-            if self.settings.get('steam_path') is None or self.settings.get('steam_path') == '':
-                self.settings['steam_path'] = str(self._steam.steam_path)
+            self._steam = Steam(self.settings.get('steam_path', None))
+            if not self.settings.get('steam_path'):
+                self.settings['steam_path'] = str(self._steam.path)
             games = self._steam.all_games()
             users = self._steam.loginusers()
             most_recent_user = users.most_recent()
