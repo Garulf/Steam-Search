@@ -76,6 +76,8 @@ class LoginUser:
             return _list
         with open(self.shortcuts_path, 'rb') as file:
             _shortcuts = file.read()
+            # Steam Rom Manager sometimes uses lowercase...
+            _shortcuts = _shortcuts.replace(b'appname\x00', b'AppName\x00')
         split = _shortcuts.split(b'AppName\x00')[1:]
         if len(split) == 0:
             return _list
