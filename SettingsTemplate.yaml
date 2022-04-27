@@ -9,4 +9,3 @@ body:
       name: steam_path
       label: 'Steam Executable Directory:'
       description: Location of steam.exe
-      defaultValue: ""

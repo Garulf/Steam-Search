@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import webbrowser
 
-from helper import Steam, SteamLibraryNotFound, SteamExecutableNotFound
+from steam import Steam, SteamLibraryNotFound, SteamExecutableNotFound
 
 from flox import Flox, ICON_SETTINGS
 
@@ -11,11 +11,14 @@ class SteamSearch(Flox):
     def query(self, query):
         self.logger
         try:
-            self._steam = Steam(self.settings.get('steam_path', ''))
-            if self.settings.get('steam_path') is None or self.settings.get('steam_path') == '':
-                self.settings['steam_path'] = str(self._steam.steam_path)
+            self._steam = Steam(self.settings.get('steam_path', None))
+            if not self.settings.get('steam_path'):
+                self.settings['steam_path'] = str(self._steam.path)
             games = self._steam.all_games()
-        except (SteamLibraryNotFound, SteamExecutableNotFound):
+            users = self._steam.loginusers()
+            most_recent_user = users.most_recent()
+            shortcuts = most_recent_user.shortcuts()
+        except (SteamLibraryNotFound, SteamExecutableNotFound, FileNotFoundError):
             self.add_item(
                 title="Steam library not found!",
                 subtitle="Please set your Steam library path in the settings",
@@ -24,15 +27,17 @@ class SteamSearch(Flox):
             )
             return
         q = query.lower()
-        for game in games:
-            if q in game.name.lower(): 
+        for item in shortcuts + games:
+            if q in item.name.lower():
+                # subtitle = str(game.install_path()) if game.install_path() is not None else None
+                icon = item.icon or str(item.path)
                 self.add_item(
-                    title=game.name,
-                    subtitle=str(game.install_path()),
-                    icon=str(game.icon()),
+                    title=item.name,
+                    subtitle=str(item.unquoted_path()),
+                    icon=str(icon),
                     method="launch_game",
-                    parameters=[game.id],
-                    context=[game.id] 
+                    parameters=[item.id],
+                    context=[item.id] 
                 )
 
     def context_menu(self, data):
