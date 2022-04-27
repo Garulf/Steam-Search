@@ -21,7 +21,10 @@ class Steam(object):
 
     def __init__(self, path:Union[str, Path]=None):
         if path is None:
-            self.path = Path(self.from_registry())
+            try:
+                self.path = Path(self.from_registry())
+            except FileNotFoundError:
+                self.path = Path(DEFAULT_STEAM_PATH)
         else:
             self.path = Path(path)
         if not self.path.exists():
