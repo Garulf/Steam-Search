@@ -18,7 +18,7 @@ class SteamSearch(Flox):
             users = self._steam.loginusers()
             most_recent_user = users.most_recent()
             shortcuts = most_recent_user.shortcuts()
-        except (SteamLibraryNotFound, SteamExecutableNotFound):
+        except (SteamLibraryNotFound, SteamExecutableNotFound, FileNotFoundError):
             self.add_item(
                 title="Steam library not found!",
                 subtitle="Please set your Steam library path in the settings",
