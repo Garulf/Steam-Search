@@ -4,9 +4,9 @@
   "Name": "Steam Search",
   "Description": "Search and launch your Steam Game library",
   "Author": "Garulf",
-  "Version": "3.2.1",
+  "Version": "4.0.0",
   "Language": "python",
   "Website": "https://github.com/Garulf/Steam-Search",
   "IcoPath": "plugin\\icon\\steam-icon.png",
-  "ExecuteFileName": "main.py"
+  "ExecuteFileName": "run.py"
 }
