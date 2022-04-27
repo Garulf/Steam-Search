@@ -59,6 +59,8 @@ class Steam(object):
         vdf = VDF(file_path)
         loginusers = LoginUsers()
         for user in vdf['users']:
+            if vdf['users'][user].get('Mostrecent'):
+                vdf['users'][user]['MostRecent'] = vdf['users'][user].pop('Mostrecent')
             loginusers.append(
                 LoginUser(ID=user, steam_path=self.path, **vdf['users'][user])
             )
