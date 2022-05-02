@@ -19,13 +19,14 @@ class LoginUser:
     ID: str
     AccountName: str
     PersonaName: str
-    RememberPassword: str
-    WantsOfflineMode: str
-    SkipOfflineModeWarning: str
-    AllowAutoLogin: str
     MostRecent: str
-    Timestamp: str
     steam_path: Union[str, Path]
+    RememberPassword: str = None
+    WantsOfflineMode: str = None
+    SkipOfflineModeWarning: str = None
+    AllowAutoLogin: str = None
+    Timestamp: str = None
+
 
     def __post_init__(self):
         self.RememberPassword = bool(strtobool(self.RememberPassword))
