@@ -27,15 +27,6 @@ class LoginUser:
     AllowAutoLogin: str = None
     Timestamp: str = None
 
-
-    def __post_init__(self):
-        self.RememberPassword = bool(strtobool(self.RememberPassword))
-        self.WantsOfflineMode = bool(strtobool(self.WantsOfflineMode))
-        self.SkipOfflineModeWarning = bool(strtobool(self.SkipOfflineModeWarning))
-        self.AllowAutoLogin = bool(strtobool(self.AllowAutoLogin))
-        self.MostRecent = bool(strtobool(self.MostRecent))
-        self.steam_path = Path(self.steam_path)
-
     @property
     def steamid(self) -> str:
         """
