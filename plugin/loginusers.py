@@ -92,8 +92,9 @@ class LoginUsers(UserList):
 
     def most_recent(self) -> LoginUser:
         for user in self:
-            if user.MostRecent:
+            if user.MostRecent == TRUE:
                 return user
+        return None
         
 
     
