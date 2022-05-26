@@ -1,2 +1,2 @@
-git+https://github.com/garulf/flox@v0.9.5#egg=flox
+flox-lib==0.17.0
 vdf==3.4
