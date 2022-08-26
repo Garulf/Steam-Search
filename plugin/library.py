@@ -27,13 +27,13 @@ class Library:
             try:
                 manifest = VDF(appmanifest)
             except FileNotFoundError:
-                logging.warning(f'Could not find game manifest ("{manifest}")')
+                logging.warning(f'Could not find game manifest ("{appmanifest}")')
                 continue
             except SyntaxError:
-                logging.warning(f'Could not parse game manifest ("{manifest}")')
+                logging.warning(f'Could not parse game manifest ("{appmanifest}")')
                 continue
             except KeyError:
-                logging.warning(f'Unable to parse game manifest ("{manifest}")')
+                logging.warning(f'Unable to parse game manifest ("{appmanifest}")')
                 continue
             else:                
                 games.append(
