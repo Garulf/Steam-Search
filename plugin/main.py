@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import webbrowser
 
-from steam import Steam, SteamLibraryNotFound, SteamExecutableNotFound
+from .steam import Steam, SteamLibraryNotFound, SteamExecutableNotFound
 
 from flox import Flox, ICON_SETTINGS
 

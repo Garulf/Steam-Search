@@ -4,8 +4,8 @@ from typing import Union, TYPE_CHECKING
 from distutils.util import strtobool
 from collections import UserList
 
-from vdfs import VDF
-from library import LibraryItem
+from .vdfs import VDF
+from .library import LibraryItem
 if TYPE_CHECKING:
     from steam import Steam
 

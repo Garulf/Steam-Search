@@ -4,10 +4,10 @@ import winreg as reg
 from winreg import HKEY_CURRENT_USER, HKEY_LOCAL_MACHINE
 from typing import Union
 
-from vdfs import VDF
-from loginusers import LoginUsers, LoginUser
-from library import Library
-from exceptions import SteamLibraryNotFound, SteamExecutableNotFound
+from .vdfs import VDF
+from .loginusers import LoginUsers, LoginUser
+from .library import Library
+from .exceptions import SteamLibraryNotFound, SteamExecutableNotFound
 
 STEAM_SUB_KEY = r'SOFTWARE\WOW6432Node\Valve\Steam'
 

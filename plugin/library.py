@@ -7,8 +7,8 @@ from functools import cached_property
 if TYPE_CHECKING:
     from steam import Steam
 
-from vdfs import VDF
-import crc_algorithms
+from .vdfs import VDF
+from . import crc_algorithms
 
 log = logging.getLogger(__name__)
 
