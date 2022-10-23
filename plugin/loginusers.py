@@ -85,6 +85,7 @@ class LoginUser:
             )
         return _list
 
+
 class LoginUsers(UserList):
 
     def __init__(self, *args, **kwargs):
@@ -95,6 +96,3 @@ class LoginUsers(UserList):
             if user.MostRecent == TRUE:
                 return user
         return None
-        
-
-    

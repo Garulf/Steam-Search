@@ -47,6 +47,8 @@ This is an example use of the different algorithms:
 
 # Class Crc
 ###############################################################################
+
+
 class Crc(object):
     """
     A base class for CRC routines.
@@ -54,7 +56,7 @@ class Crc(object):
 
     # Class constructor
     ###############################################################################
-    def __init__(self, width, poly, reflect_in, xor_in, reflect_out, xor_out, table_idx_width = None):
+    def __init__(self, width, poly, reflect_in, xor_in, reflect_out, xor_out, table_idx_width=None):
         """The Crc constructor.
 
         The parameters are as follows:
@@ -65,13 +67,13 @@ class Crc(object):
             reflect_out
             xor_out
         """
-        self.Width          = width
-        self.Poly           = poly
-        self.ReflectIn      = reflect_in
-        self.XorIn          = xor_in
-        self.ReflectOut     = reflect_out
-        self.XorOut         = xor_out
-        self.TableIdxWidth  = table_idx_width
+        self.Width = width
+        self.Poly = poly
+        self.ReflectIn = reflect_in
+        self.XorIn = xor_in
+        self.ReflectOut = reflect_out
+        self.XorOut = xor_out
+        self.TableIdxWidth = table_idx_width
 
         self.MSB_Mask = 0x1 << (self.Width - 1)
         self.Mask = ((self.MSB_Mask - 1) << 1) | 1
@@ -88,9 +90,9 @@ class Crc(object):
         else:
             self.CrcShift = 0
 
-
     # function __get_nondirect_init
     ###############################################################################
+
     def __get_nondirect_init(self, init):
         """
         return the non-direct init if the direct algorithm has been selected.
@@ -99,15 +101,15 @@ class Crc(object):
         for i in range(self.Width):
             bit = crc & 0x01
             if bit:
-                crc^= self.Poly
+                crc ^= self.Poly
             crc >>= 1
             if bit:
                 crc |= self.MSB_Mask
         return crc & self.Mask
 
-
     # function reflect
     ###############################################################################
+
     def reflect(self, data, width):
         """
         reflect a data word, i.e. reverts the bit order.
@@ -118,9 +120,9 @@ class Crc(object):
             x = (x << 1) | (data & 0x01)
         return x
 
-
     # function bit_by_bit
     ###############################################################################
+
     def bit_by_bit(self, in_str):
         """
         Classic simple and slow CRC implementation.  This function iterates bit
@@ -134,7 +136,8 @@ class Crc(object):
                 octet = self.reflect(octet, 8)
             for i in range(8):
                 topbit = register & self.MSB_Mask
-                register = ((register << 1) & self.Mask) | ((octet >> (7 - i)) & 0x01)
+                register = ((register << 1) & self.Mask) | (
+                    (octet >> (7 - i)) & 0x01)
                 if topbit:
                     register ^= self.Poly
 
@@ -148,9 +151,9 @@ class Crc(object):
             register = self.reflect(register, self.Width)
         return register ^ self.XorOut
 
-
     # function bit_by_bit_fast
     ###############################################################################
+
     def bit_by_bit_fast(self, in_str):
         """
         This is a slightly modified version of the bit-by-bit algorithm: it
@@ -174,9 +177,9 @@ class Crc(object):
             register = self.reflect(register, self.Width)
         return register ^ self.XorOut
 
-
     # function gen_table
     ###############################################################################
+
     def gen_table(self):
         """
         This function generates the CRC table used for the table_driven CRC
@@ -190,20 +193,22 @@ class Crc(object):
             register = i
             if self.ReflectIn:
                 register = self.reflect(register, self.TableIdxWidth)
-            register = register << (self.Width - self.TableIdxWidth + self.CrcShift)
+            register = register << (
+                self.Width - self.TableIdxWidth + self.CrcShift)
             for j in range(self.TableIdxWidth):
                 if register & (self.MSB_Mask << self.CrcShift) != 0:
                     register = (register << 1) ^ (self.Poly << self.CrcShift)
                 else:
                     register = (register << 1)
             if self.ReflectIn:
-                register = self.reflect(register >> self.CrcShift, self.Width) << self.CrcShift
+                register = self.reflect(
+                    register >> self.CrcShift, self.Width) << self.CrcShift
             tbl[i] = register & (self.Mask << self.CrcShift)
         return tbl
 
-
     # function table_driven
     ###############################################################################
+
     def table_driven(self, in_str):
         """
         The Standard table_driven CRC algorithm.
@@ -213,15 +218,20 @@ class Crc(object):
         register = self.DirectInit << self.CrcShift
         if not self.ReflectIn:
             for c in in_str:
-                tblidx = ((register >> (self.Width - self.TableIdxWidth + self.CrcShift)) ^ ord(c)) & 0xff
-                register = ((register << (self.TableIdxWidth - self.CrcShift)) ^ tbl[tblidx]) & (self.Mask << self.CrcShift)
+                tblidx = (
+                    (register >> (self.Width - self.TableIdxWidth + self.CrcShift)) ^ ord(c)) & 0xff
+                register = ((register << (self.TableIdxWidth - self.CrcShift))
+                            ^ tbl[tblidx]) & (self.Mask << self.CrcShift)
             register = register >> self.CrcShift
         else:
-            register = self.reflect(register, self.Width + self.CrcShift) << self.CrcShift
+            register = self.reflect(
+                register, self.Width + self.CrcShift) << self.CrcShift
             for c in in_str:
                 tblidx = ((register >> self.CrcShift) ^ ord(c)) & 0xff
-                register = ((register >> self.TableIdxWidth) ^ tbl[tblidx]) & (self.Mask << self.CrcShift)
-            register = self.reflect(register, self.Width + self.CrcShift) & self.Mask
+                register = ((register >> self.TableIdxWidth) ^
+                            tbl[tblidx]) & (self.Mask << self.CrcShift)
+            register = self.reflect(
+                register, self.Width + self.CrcShift) & self.Mask
 
         if self.ReflectOut:
             register = self.reflect(register, self.Width)

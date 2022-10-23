@@ -37,7 +37,7 @@ class SteamSearch(Flox):
                     icon=str(icon),
                     method="launch_game",
                     parameters=[item.id],
-                    context=[item.id] 
+                    context=[item.id]
                 )
 
     def context_menu(self, data):
@@ -46,19 +46,19 @@ class SteamSearch(Flox):
             title="Show in Steam store",
             subtitle="Opens game's Steam store page",
             method="launch_store",
-            parameters=[game_id] 
+            parameters=[game_id]
         )
         self.add_item(
             title="Show News",
             subtitle="Opens game's news page in Steam",
             method="launch_news",
-            parameters=[game_id] 
+            parameters=[game_id]
         )
         self.add_item(
             title="Uninstall Game",
             subtitle="Uninstall this game from your Steam library",
             method="uninstall_game",
-            parameters=[game_id] 
+            parameters=[game_id]
         )
 
     def launch_game(self, game_id):
@@ -72,6 +72,7 @@ class SteamSearch(Flox):
 
     def launch_news(self, game_id):
         webbrowser.open("steam://appnews/{}".format(game_id))
+
 
 if __name__ == "__main__":
     SteamSearch()
