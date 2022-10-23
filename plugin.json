@@ -5,8 +5,8 @@
   "Description": "Search and launch your Steam Game library",
   "Author": "Garulf",
   "Version": "5.0.1",
-  "Language": "python",
+  "Language": "executable",
   "Website": "https://github.com/Garulf/Steam-Search",
   "IcoPath": "plugin\\icon\\steam-icon.png",
-  "ExecuteFileName": "run.py"
+  "ExecuteFileName": "run.exe"
 }
