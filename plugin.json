@@ -4,7 +4,7 @@
   "Name": "Steam Search",
   "Description": "Search and launch your Steam Game library",
   "Author": "Garulf",
-  "Version": "6.0.0",
+  "Version": "6.0.1",
   "Language": "executable",
   "Website": "https://github.com/Garulf/Steam-Search",
   "IcoPath": "icon.png",
