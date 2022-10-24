@@ -4,8 +4,8 @@ from typing import Union, TYPE_CHECKING
 from distutils.util import strtobool
 from collections import UserList
 
-from vdfs import VDF
-from library import LibraryItem
+from .vdfs import VDF
+from .library import LibraryItem
 if TYPE_CHECKING:
     from steam import Steam
 
@@ -85,6 +85,7 @@ class LoginUser:
             )
         return _list
 
+
 class LoginUsers(UserList):
 
     def __init__(self, *args, **kwargs):
@@ -95,6 +96,3 @@ class LoginUsers(UserList):
             if user.MostRecent == TRUE:
                 return user
         return None
-        
-
-    

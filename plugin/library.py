@@ -7,8 +7,8 @@ from functools import cached_property
 if TYPE_CHECKING:
     from steam import Steam
 
-from vdfs import VDF
-import crc_algorithms
+from .vdfs import VDF
+from . import crc_algorithms
 
 log = logging.getLogger(__name__)
 
@@ -27,31 +27,37 @@ class Library:
             try:
                 manifest = VDF(appmanifest)
             except FileNotFoundError:
-                logging.debug(f'Could not find game manifest ("{appmanifest}")')
+                logging.debug(
+                    f'Could not find game manifest ("{appmanifest}")')
                 continue
             except SyntaxError:
-                logging.debug(f'Could not parse game manifest ("{appmanifest}")')
+                logging.debug(
+                    f'Could not parse game manifest ("{appmanifest}")')
                 continue
             except KeyError:
-                logging.debug(f'Unable to parse game manifest ("{appmanifest}")')
+                logging.debug(
+                    f'Unable to parse game manifest ("{appmanifest}")')
                 continue
-            else:                
+            else:
                 games.append(
                     LibraryItem(
                         name=manifest['AppState']['name'],
-                        path=Path(self.path).joinpath(manifest['AppState']['installdir']),
+                        path=Path(self.path).joinpath(
+                            manifest['AppState']['installdir']),
                         id=manifest['AppState']['appid'],
-                        image_dir=Path(self.steam.path).joinpath('appcache', 'librarycache'),
+                        image_dir=Path(self.steam.path).joinpath(
+                            'appcache', 'librarycache'),
                     )
                 )
         return games
+
 
 class LibraryItem:
     """
     Base class for all library items.
     """
 
-    def __init__(self, name:str, path:Union[str, Path], image_dir:Union[str, Path], id:str=None):
+    def __init__(self, name: str, path: Union[str, Path], image_dir: Union[str, Path], id: str = None):
         self.name = name
         self.path = Path(path)
         self.image_dir = Path(image_dir)
@@ -66,7 +72,7 @@ class LibraryItem:
         if self._id is None:
             self._id = self.generate_id()
         return self._id
-        
+
     def uri(self) -> str:
         """
         Return Steam run game URI for this item.
@@ -80,8 +86,8 @@ class LibraryItem:
         from steam import Steam
         webbrowser.open(self.uri())
 
-    def get_image(self, type:str, sep='_') -> Path:
-        id = self.id 
+    def get_image(self, type: str, sep='_') -> Path:
+        id = self.id
         if Path(self.image_dir).name == 'grid':
             # Grid images use short ID format
             id = self.short_id()
@@ -126,7 +132,8 @@ class LibraryItem:
         """
         Generate Steam ID for this library item.
         """
-        algorithm = crc_algorithms.Crc(width = 32, poly = 0x04C11DB7, reflect_in = True, xor_in = 0xffffffff, reflect_out = True, xor_out = 0xffffffff)
+        algorithm = crc_algorithms.Crc(
+            width=32, poly=0x04C11DB7, reflect_in=True, xor_in=0xffffffff, reflect_out=True, xor_out=0xffffffff)
         input_string = ''.join([str(self.path), self.name])
         top_32 = algorithm.bit_by_bit(input_string) | 0x80000000
         full_64 = (top_32 << 32) | 0x02000000
