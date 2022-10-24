@@ -48,18 +48,18 @@ jobs:
       - name: Build
         run: |
           python -m nuitka run.py --assume-yes-for-downloads --standalone --onefile
-      - name: Move files to staging
-        run: |
-          mkdir -p staging
-          mv run.exe staging
-          mv plugin.json staging
-          mv icon.png staging
       - name: Get Plugin's version
         id: version
         uses: notiz-dev/github-action-json-property@release
         with:
           path: "plugin.json"
           prop_path: "Version"
+      - name: Move files to staging
+        run: |
+          mkdir -p staging
+          mv run.exe staging
+          mv plugin.json staging
+          mv icon.png staging
       - name: Archive Release
         uses: thedoctor0/zip-release@main
         with:
