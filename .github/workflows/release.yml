@@ -70,7 +70,7 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           draft: false
-          files: "./${{github.event.repository.name}}.zip"
+          files: "./staging/${{github.event.repository.name}}.zip"
           tag_name: "v${{steps.version.outputs.prop}}"
           generate_release_notes: true
         env:
