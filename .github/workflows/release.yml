@@ -47,7 +47,7 @@ jobs:
           pip install -r ./requirements-dev.txt
       - name: Build
         run: |
-          python -m nuitka run.py --standalone --onefile
+          python -m nuitka run.py --assume-yes-for-downloads --standalone --onefile
       - name: Move files to staging
         run: |
           mkdir -p staging
