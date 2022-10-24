@@ -7,6 +7,6 @@
   "Version": "6.0.0",
   "Language": "executable",
   "Website": "https://github.com/Garulf/Steam-Search",
-  "IcoPath": "plugin\\icon\\steam-icon.png",
+  "IcoPath": "icon.png",
   "ExecuteFileName": "run.exe"
 }
