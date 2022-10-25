@@ -67,7 +67,6 @@ jobs:
           mkdir -p staging
           mv run.exe staging
           mv plugin.json staging
-          mv icon.png staging
           mv SettingsTemplate.yaml staging
       - name: Archive Release
         uses: thedoctor0/zip-release@main
