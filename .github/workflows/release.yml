@@ -24,30 +24,38 @@ jobs:
       - name: Set up Python ${{ env.PYTHON_VER }}
         uses: actions/setup-python@v2
         with:
-          python-version:
-      - uses: actions/cache@v2
+          python-version: ${{ env.PYTHON_VER }}
+      - name: Cache plugin dependencies
+        id: plugin-cache
+        uses: actions/cache@v2
         if: startsWith(runner.os, 'Windows')
         with:
           path: ~\AppData\Local\pip\Cache
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          key: ${{ runner.os }}-${{ env.PYTHON_VER }}-pip-${{ hashFiles('**/requirements.txt') }}
           restore-keys: |
             ${{ runner.os }}-pip-
-      - uses: actions/cache@v2
+      - name: Cache Build dependencies
+        id: build-cache
+        uses: actions/cache@v2
         if: startsWith(runner.os, 'Windows')
         with:
           path: ~\AppData\Local\pip\Cache
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements-dev.txt') }}
+          key: ${{ runner.os }}-${{ env.PYTHON_VER }}-pip-${{ hashFiles('**/requirements-dev.txt') }}
           restore-keys: |
             ${{ runner.os }}-pip-
-      - name: Install dependencies
+      - name: Install Plugin dependencies
+        if: steps.plugin-cache.outputs.cache-hit != 'true'
         run: |
           python -m pip install --upgrade pip
           pip install wheel
           pip install -r ./requirements.txt
+      - name: Install Build dependencies
+        if: steps.build-cache.outputs.cache-hit != 'true'
+        run: |
           pip install -r ./requirements-dev.txt
       - name: Build
         run: |
-          python -m nuitka run.py --assume-yes-for-downloads --standalone --onefile
+          python -m nuitka run.py --assume-yes-for-downloads --standalone --onefile --windows-icon-from-ico=icon.png
       - name: Get Plugin's version
         id: version
         uses: notiz-dev/github-action-json-property@release
@@ -59,7 +67,6 @@ jobs:
           mkdir -p staging
           mv run.exe staging
           mv plugin.json staging
-          mv icon.png staging
           mv SettingsTemplate.yaml staging
       - name: Archive Release
         uses: thedoctor0/zip-release@main
