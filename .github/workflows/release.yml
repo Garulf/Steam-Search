@@ -10,7 +10,7 @@ on:
       - README.md
       - assets/*
 env:
-  PYTHON_VER: 3.10
+  PYTHON_VER: "3.10"
 jobs:
   deps:
     if: ${{ github.ref == 'refs/heads/main' }}
@@ -24,7 +24,7 @@ jobs:
       - name: Set up Python ${{ env.PYTHON_VER }}
         uses: actions/setup-python@v2
         with:
-          python-version: ${{ env.PYTHON_VER }}
+          python-version:
       - uses: actions/cache@v2
         if: startsWith(runner.os, 'Windows')
         with:
