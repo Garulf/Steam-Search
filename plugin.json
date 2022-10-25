@@ -7,6 +7,6 @@
   "Version": "7.0.0",
   "Language": "executable",
   "Website": "https://github.com/Garulf/Steam-Search",
-  "IcoPath": "icon.png",
+  "IcoPath": "run.exe",
   "ExecuteFileName": "run.exe"
 }
