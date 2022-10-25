@@ -55,7 +55,7 @@ jobs:
           pip install -r ./requirements-dev.txt
       - name: Build
         run: |
-          python -m nuitka run.py --assume-yes-for-downloads --standalone --onefile
+          python -m nuitka run.py --assume-yes-for-downloads --standalone --onefile --windows-icon-from-ico=icon.png
       - name: Get Plugin's version
         id: version
         uses: notiz-dev/github-action-json-property@release
