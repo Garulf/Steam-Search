@@ -35,7 +35,7 @@ class SteamSearch(Flox):
 
             self.add_item(
                 title=item.name,
-                subtitle=str(score),
+                subtitle=str(item.unquoted_path()),
                 icon=str(icon),
                 method="launch_game",
                 parameters=[item.id],
