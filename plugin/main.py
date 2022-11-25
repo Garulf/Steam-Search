@@ -4,6 +4,7 @@ import webbrowser
 from .steam import Steam, SteamLibraryNotFound, SteamExecutableNotFound
 
 from flox import Flox, ICON_SETTINGS
+from flox.string_matcher import string_matcher
 
 
 class SteamSearch(Flox):
@@ -26,19 +27,21 @@ class SteamSearch(Flox):
                 icon=ICON_SETTINGS
             )
             return
-        q = query.lower()
         for item in shortcuts + games:
-            if q in item.name.lower():
-                # subtitle = str(game.install_path()) if game.install_path() is not None else None
-                icon = item.icon or str(item.path)
-                self.add_item(
-                    title=item.name,
-                    subtitle=str(item.unquoted_path()),
-                    icon=str(icon),
-                    method="launch_game",
-                    parameters=[item.id],
-                    context=[item.id]
-                )
+            # subtitle = str(game.install_path()) if game.install_path() is not None else None
+            icon = item.icon or str(item.path)
+            match = string_matcher(query, item.name)
+            score = match[-1] if match else 0
+
+            self.add_item(
+                title=item.name,
+                subtitle=str(score),
+                icon=str(icon),
+                method="launch_game",
+                parameters=[item.id],
+                context=[item.id],
+                score=int(score)
+            )
 
     def context_menu(self, data):
         game_id = data[0]
