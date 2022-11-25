@@ -11,6 +11,7 @@ Simply type `st` to start searching your steam library
 * Multiple library support
 * Minimal setup and configuration needed (Steam search automatically locates your Steam library!)
 * *NEW* with v4.0.x "Non-Steam Game" shortcut support!
+* *NEW* v7+ Better search matching/scoring!
 
 # Installation:
 
