@@ -5,7 +5,7 @@ from distutils.util import strtobool
 from collections import UserList
 
 from .vdfs import VDF
-from .library import LibraryItem
+from .library import LibraryItem, LibraryImageDir
 if TYPE_CHECKING:
     from steam import Steam
 
@@ -75,12 +75,13 @@ class LoginUser:
         split = _shortcuts.split(b'AppName\x00')[1:]
         if len(split) == 0:
             return _list
+        image_dir = LibraryImageDir(self.grid_path)
         for shortcut in _shortcuts.split(b'AppName\x00')[1:]:
             _list.append(
                 LibraryItem(
                     name=shortcut.split(b'\x00')[0].decode('utf-8'),
                     path=shortcut.split(b'\x00')[2].decode('utf-8'),
-                    image_dir=self.grid_path
+                    image_dir=image_dir
                 )
             )
         return _list
