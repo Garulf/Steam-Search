@@ -30,7 +30,7 @@ class SteamSearch(Flox):
             # subtitle = str(game.install_path()) if game.install_path() is not None else None
             query_search_precision = QUERY_SEARCH_PRECISION[self.query_search_precision]
             match = string_matcher(query, item.name, query_search_precision=query_search_precision or DEFAULT_QUERY_SEARCH_PRECISION)
-            if match.matched:
+            if match.matched or (query == "" and self.settings.get('show_on_empty_search', False)):
                 icon = item.icon or str(item.path)
                 score = match.score
                 self.add_item(
