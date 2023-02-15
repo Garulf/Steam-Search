@@ -8,9 +8,8 @@ from flox.string_matcher import string_matcher, DEFAULT_QUERY_SEARCH_PRECISION, 
 
 
 class SteamSearch(Flox):
-
+    
     def query(self, query):
-        self.logger
         try:
             self._steam = Steam(self.settings.get('steam_path', None))
             if not self.settings.get('steam_path'):
