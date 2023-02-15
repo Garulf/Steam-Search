@@ -34,16 +34,15 @@ class SteamSearch(Flox):
             if match.matched:
                 icon = item.icon or str(item.path)
                 score = match.score
-
-            self.add_item(
-                title=item.name,
-                subtitle=str(item.unquoted_path()),
-                icon=str(icon),
-                method="launch_game",
-                parameters=[item.id],
-                context=[item.id],
-                score=int(score)
-            )
+                self.add_item(
+                    title=item.name,
+                    subtitle=str(item.unquoted_path()),
+                    icon=str(icon),
+                    method="launch_game",
+                    parameters=[item.id],
+                    context=[item.id],
+                    score=int(score)
+                )
 
     def context_menu(self, data):
         game_id = data[0]
