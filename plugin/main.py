@@ -29,19 +29,20 @@ class SteamSearch(Flox):
             return
         for item in shortcuts + games:
             # subtitle = str(game.install_path()) if game.install_path() is not None else None
-            icon = item.icon or str(item.path)
             match = string_matcher(query, item.name)
-            score = match[-1] if match else 0
+            if match and match[0]:
+                icon = item.icon or str(item.path)
+                score = match[-1]
 
-            self.add_item(
-                title=item.name,
-                subtitle=str(item.unquoted_path()),
-                icon=str(icon),
-                method="launch_game",
-                parameters=[item.id],
-                context=[item.id],
-                score=int(score)
-            )
+                self.add_item(
+                    title=item.name,
+                    subtitle=str(item.unquoted_path()),
+                    icon=str(icon),
+                    method="launch_game",
+                    parameters=[item.id],
+                    context=[item.id],
+                    score=int(score)
+                )
 
     def context_menu(self, data):
         game_id = data[0]
