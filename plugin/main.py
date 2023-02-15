@@ -4,7 +4,7 @@ import webbrowser
 from .steam import Steam, SteamLibraryNotFound, SteamExecutableNotFound
 
 from flox import Flox, ICON_SETTINGS
-from flox.string_matcher import string_matcher
+from flox.string_matcher import string_matcher, DEFAULT_QUERY_SEARCH_PRECISION, QUERY_SEARCH_PRECISION
 
 
 class SteamSearch(Flox):
@@ -29,9 +29,11 @@ class SteamSearch(Flox):
             return
         for item in shortcuts + games:
             # subtitle = str(game.install_path()) if game.install_path() is not None else None
-            icon = item.icon or str(item.path)
-            match = string_matcher(query, item.name)
-            score = match[-1] if match else 0
+            query_search_precision = QUERY_SEARCH_PRECISION[self.query_search_precision]
+            match = string_matcher(query, item.name, query_search_precision=query_search_precision or DEFAULT_QUERY_SEARCH_PRECISION)
+            if match.matched:
+                icon = item.icon or str(item.path)
+                score = match.score
 
             self.add_item(
                 title=item.name,
