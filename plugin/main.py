@@ -4,13 +4,12 @@ import webbrowser
 from .steam import Steam, SteamLibraryNotFound, SteamExecutableNotFound
 
 from flox import Flox, ICON_SETTINGS
-from flox.string_matcher import string_matcher
+from flox.string_matcher import string_matcher, DEFAULT_QUERY_SEARCH_PRECISION, QUERY_SEARCH_PRECISION
 
 
 class SteamSearch(Flox):
-
+    
     def query(self, query):
-        self.logger
         try:
             self._steam = Steam(self.settings.get('steam_path', None))
             if not self.settings.get('steam_path'):
@@ -29,19 +28,20 @@ class SteamSearch(Flox):
             return
         for item in shortcuts + games:
             # subtitle = str(game.install_path()) if game.install_path() is not None else None
-            icon = item.icon or str(item.path)
-            match = string_matcher(query, item.name)
-            score = match[-1] if match else 0
-
-            self.add_item(
-                title=item.name,
-                subtitle=str(item.unquoted_path()),
-                icon=str(icon),
-                method="launch_game",
-                parameters=[item.id],
-                context=[item.id],
-                score=int(score)
-            )
+            query_search_precision = QUERY_SEARCH_PRECISION[self.query_search_precision]
+            match = string_matcher(query, item.name, query_search_precision=query_search_precision or DEFAULT_QUERY_SEARCH_PRECISION)
+            if match.matched or (query == "" and self.settings.get('show_on_empty_search', False)):
+                icon = item.icon or str(item.path)
+                score = match.score
+                self.add_item(
+                    title=item.name,
+                    subtitle=str(item.unquoted_path()),
+                    icon=str(icon),
+                    method="launch_game",
+                    parameters=[item.id],
+                    context=[item.id],
+                    score=int(score)
+                )
 
     def context_menu(self, data):
         game_id = data[0]
