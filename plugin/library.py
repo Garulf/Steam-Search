@@ -112,7 +112,7 @@ class LibraryItem:
     def get_image(self, type: str, sep='_') -> Path:
         id = self.id
         if self.image_dir.grid:
-            # Grid images use the short version ID
+            # Grid images use the short ID
             id = self.short_id()
         return self.image_dir.get_image(id, type, sep)
 
