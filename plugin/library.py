@@ -63,9 +63,6 @@ class LibraryImageDir:
         self._iterdir = image_dir.iterdir()
 
     def get_image(self, id: str, type: str, sep='_') -> Path:
-        if self.grid:
-            # Grid images use short ID format
-            id = self.short_id()
 
         prefix = f'{id}{sep}{type}'
         if prefix in self._files_cache:
@@ -113,7 +110,11 @@ class LibraryItem:
         webbrowser.open(self.uri())
 
     def get_image(self, type: str, sep='_') -> Path:
-        return self.image_dir.get_image(self.id, type, sep)
+        id = self.id
+        if self.image_dir.grid:
+            # Grid images use the short version ID
+            id = self.short_id()
+        return self.image_dir.get_image(id, type, sep)
 
     @cached_property
     def icon(self) -> Path:
