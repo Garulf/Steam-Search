@@ -15,3 +15,9 @@ body:
       label: "Show all games with empty search"
       defaultValue: "true"
       description: "Shows all games when search Query is empty and the Action Keyword is used"
+  - type: checkbox
+    attributes:
+      name: Debug
+      label: "Debug"
+      defaultValue: "false"
+      description: "Enable Debug logging"

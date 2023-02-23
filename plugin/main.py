@@ -14,6 +14,9 @@ class SteamSearch(Flox):
             self._steam = Steam(self.settings.get('steam_path', None))
             if not self.settings.get('steam_path'):
                 self.settings['steam_path'] = str(self._steam.path)
+            debug = self.settings.get('debug', False)
+            if debug:
+                self.logger_level = 'DEBUG'
             games = self._steam.all_games()
             users = self._steam.loginusers()
             most_recent_user = users.most_recent() or users[0]
