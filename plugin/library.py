@@ -39,7 +39,7 @@ class Library:
                 logging.debug(
                     f'Unable to parse game manifest ("{appmanifest}")')
                 continue
-            else:
+            try:
                 games.append(
                     LibraryItem(
                         name=manifest['AppState']['name'],
@@ -49,6 +49,10 @@ class Library:
                         image_dir=image_dir,
                     )
                 )
+            except KeyError:
+                logging.debug(
+                    f'Unable to parse game manifest ("{appmanifest}")')
+                continue
         return games
 
 class LibraryImageDir:
