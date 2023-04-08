@@ -1,2 +1,2 @@
-flox-lib==0.19.3
+flox-lib==0.19.6
 vdf==3.4
