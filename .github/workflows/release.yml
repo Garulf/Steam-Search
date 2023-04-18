@@ -62,17 +62,11 @@ jobs:
         with:
           path: "plugin.json"
           prop_path: "Version"
-      - name: Move files to staging
-        run: |
-          mkdir -p staging
-          mv run.exe staging
-          mv plugin.json staging
-          mv SettingsTemplate.yaml staging
       - name: Archive Release
         uses: thedoctor0/zip-release@main
         with:
           type: "zip"
-          directory: "./staging"
+          directory: "./run.dist"
           filename: "${{github.event.repository.name}}.zip"
       - name: Publish
         uses: softprops/action-gh-release@v1
