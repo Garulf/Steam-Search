@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Union, TYPE_CHECKING
+from typing import Optional, Union, TYPE_CHECKING
 import webbrowser
 import logging
 from functools import cached_property
@@ -66,18 +66,21 @@ class LibraryImageDir:
         self._files_cache = {}
         self._iterdir = image_dir.iterdir()
 
-    def get_image(self, id: str, type: str, sep='_') -> Path:
-
+    def get_image(self, id: str, type: str, sep='_') -> Optional[Path]:
         prefix = f'{id}{sep}{type}'
-        if prefix in self._files_cache:
-            return self._files_cache[prefix]
-        else:
-            for file in self._iterdir:
-                haystack_prefix = file.name.split(".", 1)[0]
-                self._files_cache[haystack_prefix] = file
-                if prefix == haystack_prefix:
-                    return file
+        try:
+            if prefix in self._files_cache:
+                return self._files_cache[prefix]
+            else:
+                for file in self._iterdir:
+                    haystack_prefix = file.name.split(".", 1)[0]
+                    self._files_cache[haystack_prefix] = file
+                    if prefix == haystack_prefix:
+                        return file
+                return None
+        except FileNotFoundError:
             return None
+
 
 class LibraryItem:
     """
