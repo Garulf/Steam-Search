@@ -55,24 +55,18 @@ jobs:
           pip install -r ./requirements-dev.txt
       - name: Build
         run: |
-          python -m nuitka run.py --assume-yes-for-downloads --standalone --onefile --windows-icon-from-ico=icon.png
+          python -m nuitka run.py --assume-yes-for-downloads --standalone --windows-icon-from-ico=icon.png --include-data-file=plugin.json=. --include-data-file=LICENSE=. --include-data-file=SettingsTemplate.yaml=.
       - name: Get Plugin's version
         id: version
         uses: notiz-dev/github-action-json-property@release
         with:
           path: "plugin.json"
           prop_path: "Version"
-      - name: Move files to staging
-        run: |
-          mkdir -p staging
-          mv run.exe staging
-          mv plugin.json staging
-          mv SettingsTemplate.yaml staging
       - name: Archive Release
         uses: thedoctor0/zip-release@main
         with:
           type: "zip"
-          directory: "./staging"
+          directory: "./run.dist"
           filename: "${{github.event.repository.name}}.zip"
       - name: Publish
         uses: softprops/action-gh-release@v1
