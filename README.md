@@ -17,7 +17,7 @@ Simply type `st` to start searching your steam library
 # Installation:
 
 ### Flow Lancher:
-![FLow Launcher install screenshot](assets/install_screenshot.svg)
+![FLow Launcher install screenshot](assets/install_screenshot1.svg)
 
 Simply type `pm install steam search` to have the plugin installed
 
