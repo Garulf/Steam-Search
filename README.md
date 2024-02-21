@@ -6,7 +6,7 @@ Search and launch your Steam Game library
 
 Simply type `st` to start searching your steam library
 
-![screenshot](assets/screenshot.svg)
+![screenshot](assets/screenshot.png)
 
 ## Features
 
