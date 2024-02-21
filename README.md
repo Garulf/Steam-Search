@@ -1,3 +1,5 @@
+![hero-image](assets/hero.png)
+
 
 # Steam Search
 Search and launch your Steam Game library
