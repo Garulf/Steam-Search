@@ -127,7 +127,6 @@ class LibraryItem:
         """
         Launch this Steam library item.
         """
-        from steam import Steam
         webbrowser.open(self.uri())
 
     def get_image(self, type: str, sep='_') -> Path:
