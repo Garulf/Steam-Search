@@ -1,7 +1,7 @@
 from pathlib import Path
 import logging
-import winreg as reg
-from winreg import HKEY_CURRENT_USER, HKEY_LOCAL_MACHINE
+#import winreg as reg
+#from winreg import HKEY_CURRENT_USER, HKEY_LOCAL_MACHINE
 from typing import Union
 
 from .vdfs import VDF

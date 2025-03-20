@@ -12,6 +12,14 @@ from . import crc_algorithms
 
 log = logging.getLogger(__name__)
 
+ASSETS = [
+    'header',
+    'library_600x900',
+    'library_hero',
+    'library_hero_blur',
+    'logo'
+]
+
 
 @dataclass
 class Library:
@@ -94,6 +102,12 @@ class LibraryItem:
         self._id = id
         self._image_id = self.id
 
+    def _get_hashed_icon(self) -> Optional[Path]:
+        asset_path = Path(self.image_dir).joinpath(self.id)
+        for asset in asset_path.iterdir():
+            if asset.stem not in ASSETS:
+                return asset
+
     @property
     def id(self):
         """
@@ -124,11 +138,11 @@ class LibraryItem:
         return self.image_dir.get_image(id, type, sep)
 
     @cached_property
-    def icon(self) -> Path:
+    def icon(self) -> Optional[Path]:
         """
         Return the icon for this library item.
         """
-        return self.get_image('icon') or Path(self.unquoted_path())
+        return self._get_hashed_icon()
 
     @cached_property
     def hero(self) -> Path:
