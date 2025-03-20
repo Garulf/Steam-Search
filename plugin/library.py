@@ -12,14 +12,6 @@ from . import crc_algorithms
 
 log = logging.getLogger(__name__)
 
-ASSETS = [
-    'header',
-    'library_600x900',
-    'library_hero',
-    'library_hero_blur',
-    'logo'
-]
-
 
 @dataclass
 class Library:
@@ -102,12 +94,6 @@ class LibraryItem:
         self._id = id
         self._image_id = self.id
 
-    def _get_hashed_icon(self) -> Optional[Path]:
-        asset_path = Path(self.image_dir).joinpath(self.id)
-        for asset in asset_path.iterdir():
-            if asset.stem not in ASSETS:
-                return asset
-
     @property
     def id(self):
         """
@@ -127,6 +113,7 @@ class LibraryItem:
         """
         Launch this Steam library item.
         """
+        from steam import Steam
         webbrowser.open(self.uri())
 
     def get_image(self, type: str, sep='_') -> Path:
@@ -137,11 +124,11 @@ class LibraryItem:
         return self.image_dir.get_image(id, type, sep)
 
     @cached_property
-    def icon(self) -> Optional[Path]:
+    def icon(self) -> Path:
         """
         Return the icon for this library item.
         """
-        return self._get_hashed_icon()
+        return self.get_image('icon') or Path(self.unquoted_path())
 
     @cached_property
     def hero(self) -> Path:
