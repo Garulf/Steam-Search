@@ -1,7 +1,6 @@
-from dataclasses import dataclass, Field
+from dataclasses import dataclass
 from pathlib import Path
 from typing import Union, TYPE_CHECKING
-from distutils.util import strtobool
 from collections import UserList
 
 from .vdfs import VDF
