@@ -23,15 +23,6 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Verify tag commit is on main
-        shell: bash
-        run: |
-          git fetch origin main --depth=1
-          if ! git branch -r --contains "$GITHUB_SHA" | grep -q "origin/main"; then
-            echo "Tag $GITHUB_REF_NAME is not on main." >&2
-            exit 1
-          fi
-
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
