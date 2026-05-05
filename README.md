@@ -29,6 +29,6 @@ Unzip [Steam-Search.zip](https://github.com/Garulf/Steam-Search/releases/latest)
 | Wox           | `%appdata%\Wox\Plugins`          |
 | Flow Launcher | `%appdata%\FlowLauncher\Plugins` |
 
-##
+## Support this project
 
 [!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/garulf)
