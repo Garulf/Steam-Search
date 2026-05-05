@@ -1,4 +1,4 @@
-![hero-image](assets/hero.png)
+![hero-image](.github/assets/hero.png)
 
 
 # Steam Search
@@ -6,7 +6,7 @@ Search and launch your Steam Game library
 
 Simply type `st` to start searching your steam library
 
-![screenshot](assets/screenshot.png)
+![screenshot](.github/assets/screenshot.png)
 
 ## Features
 
@@ -19,7 +19,7 @@ Simply type `st` to start searching your steam library
 # Installation:
 
 ### Flow Lancher:
-![FLow Launcher install screenshot](assets/install.png)
+![FLow Launcher install screenshot](.github/assets/install.png)
 
 Simply type `pm install steam search` to have the plugin installed
 
