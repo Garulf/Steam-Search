@@ -2,12 +2,6 @@
 
 ![hero-image](.github/assets/hero.png)
 
-Search and launch your Steam Game library
-
-Simply type `st` to start searching your steam library
-
-![screenshot](.github/assets/screenshot.png)
-
 ## Features
 
 * Launch games straight from your launcher
@@ -15,6 +9,8 @@ Simply type `st` to start searching your steam library
 * Minimal setup and configuration needed (Steam search automatically locates your Steam library!)
 * *NEW* with v4.0.x "Non-Steam Game" shortcut support!
 * *NEW* v7+ Better search matching/scoring!
+
+![screenshot](.github/assets/screenshot.png)
 
 ## Installation
 
