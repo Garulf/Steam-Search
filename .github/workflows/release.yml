@@ -35,12 +35,11 @@ jobs:
           build_dir="$RUNNER_TEMP/build"
           mkdir -p "$build_dir"
 
-          mv run.py "$build_dir/"
-          mv icon.png "$build_dir/"
-          mv plugin.json "$build_dir/"
-          mv SettingsTemplate.yaml "$build_dir/"
-          mv LICENSE "$build_dir/"
-          mv plugin "$build_dir/"
+          cp -r src/. "$build_dir/"
+          cp static/icon.png "$build_dir/"
+          cp data/plugin.json "$build_dir/"
+          cp data/SettingsTemplate.yaml "$build_dir/"
+          cp LICENSE "$build_dir/"
 
           lib_dir="$build_dir/lib"
           mkdir -p "$lib_dir"
