@@ -7,6 +7,6 @@
   "Version": "10.0.0",
   "Language": "python",
   "Website": "https://github.com/Garulf/Steam-Search",
-  "IcoPath": "run.py",
+  "IcoPath": "icon.png",
   "ExecuteFileName": "run.py"
 }
