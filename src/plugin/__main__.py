@@ -1,12 +1,9 @@
-from typing import Any
-
 from pyflowlauncher import Plugin, Result
 from steam_client.utils import steam_from_registry
-from steam_client.commands import store, run_game_id
+from steam_client.commands import run_game_id
 from pyflowlauncher.models.result import PreviewInfo
 
-plugin = Plugin()
-plugin.add_methods([store, run_game_id])
+plugin = Plugin([run_game_id])
 steam = steam_from_registry()
 
 
