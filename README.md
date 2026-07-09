@@ -26,7 +26,6 @@ Unzip [Steam-Search.zip](https://github.com/Garulf/Steam-Search/releases/latest)
 
 | Launcher      | Plugin Path                      |
 |---------------|----------------------------------|
-| Wox           | `%appdata%\Wox\Plugins`          |
 | Flow Launcher | `%appdata%\FlowLauncher\Plugins` |
 
 ## Support this project
