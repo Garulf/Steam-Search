@@ -36,7 +36,7 @@ jobs:
           mkdir -p "$build_dir"
 
           cp -r src/. "$build_dir/"
-          cp static/icon.png "$build_dir/"
+          cp data/icon.png "$build_dir/"
           cp data/plugin.json "$build_dir/"
           cp data/SettingsTemplate.yaml "$build_dir/"
           cp LICENSE "$build_dir/"
