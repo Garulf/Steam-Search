@@ -25,13 +25,15 @@ async def query(query: str):
             IsMedia=True,
             PreviewDeligate=""
         )
-        yield Result(
+        r = Result(
             title=game.name,
             subtitle=f"Launch {game.name}",
             icon=game.icon,
             score=score,
             preview=preview_info
-        ).add_action(run_game_id, parameters=[game.appid])
+        )
+        r.add_action(run_game_id, parameters=[game.appid])
+        yield r
 
 
 plugin.run()
