@@ -1,2 +1,2 @@
-flox-lib==0.19.6
-vdf==3.4
+pyflowlauncher==1.0.1
+steam-client==5.0.2

@@ -4,11 +4,12 @@
 
 ## Features
 
+* *NEW* Ludacris speeds! Steam-Search is much more efficent! :rocket:
+* *NEW* Icons and other game assets work! Icons are fixed and game box art shows in preview pane with `F1`
 * Launch games straight from your launcher
 * Multiple library support
 * Minimal setup and configuration needed (Steam search automatically locates your Steam library!)
-* *NEW* with v4.0.x "Non-Steam Game" shortcut support!
-* *NEW* v7+ Better search matching/scoring!
+* "Non-Steam Game" shortcut support!
 
 ![screenshot](.github/assets/screenshot.png)
 
@@ -26,7 +27,6 @@ Unzip [Steam-Search.zip](https://github.com/Garulf/Steam-Search/releases/latest)
 
 | Launcher      | Plugin Path                      |
 |---------------|----------------------------------|
-| Wox           | `%appdata%\Wox\Plugins`          |
 | Flow Launcher | `%appdata%\FlowLauncher\Plugins` |
 
 ## Support this project

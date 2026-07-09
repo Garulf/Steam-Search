@@ -1,12 +1,9 @@
+# run.py — generic shim, identical across all plugins
+import runpy
 import sys
 import os
 
-plugindir = os.path.abspath(os.path.dirname(__file__))
-sys.path.append(plugindir)
-sys.path.append(os.path.join(plugindir, "lib"))
-sys.path.append(os.path.join(plugindir, "plugin"))
+PLUGIN_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "plugin")
 
-from plugin.main import SteamSearch
-
-if __name__ == "__main__":
-    SteamSearch()
+sys.path.insert(0, os.path.join(PLUGIN_DIR, "site-packages"))
+runpy.run_path(PLUGIN_DIR, run_name="__main__")
