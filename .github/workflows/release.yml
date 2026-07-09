@@ -41,17 +41,17 @@ jobs:
           cp data/SettingsTemplate.yaml "$build_dir/"
           cp LICENSE "$build_dir/"
 
-          lib_dir="$build_dir/lib"
-          mkdir -p "$lib_dir"
+          site_dir="$build_dir/plugin/site-packages"
+          mkdir -p "$site_dir"
 
           echo "build_dir=$build_dir" >> "$GITHUB_OUTPUT"
-          echo "lib_dir=$lib_dir" >> "$GITHUB_OUTPUT"
+          echo "site_dir=$site_dir" >> "$GITHUB_OUTPUT"
 
       - name: Install requirements into build/lib
         shell: bash
         run: |
           python -m pip install --upgrade pip
-          python -m pip install -r requirements.txt --target "${{ steps.stage.outputs.lib_dir }}"
+          python -m pip install -r requirements.txt --target "${{ steps.stage.outputs.site_dir }}"
 
       - name: Create release archive
         id: archive
