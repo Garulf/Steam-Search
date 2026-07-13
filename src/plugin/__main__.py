@@ -9,7 +9,7 @@ steam = steam_from_registry()
 
 @plugin.on_method
 async def query(query: str):
-    for game in steam.library.games():
+    for game in steam.library.all_apps():
         score = 0
         if query:
             match_data = await plugin.launcher.api.fuzzy_search(

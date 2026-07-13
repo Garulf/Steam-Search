@@ -1,2 +1,2 @@
 pyflowlauncher==1.0.1
-steam-client==5.0.2
+steam-client==6.0.0
