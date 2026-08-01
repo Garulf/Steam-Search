@@ -6,10 +6,14 @@ from pyflowlauncher.models.result import PreviewInfo
 plugin = Plugin([run_game_id])
 steam = steam_from_registry()
 
+BLACKLISTED_APP_NAMES = frozenset({"steamworks common redistributables"})
+
 
 @plugin.on_method
 async def query(query: str):
     for game in steam.library.all_apps():
+        if game.name.casefold() in BLACKLISTED_APP_NAMES:
+            continue
         score = 0
         if query:
             match_data = await plugin.launcher.api.fuzzy_search(
