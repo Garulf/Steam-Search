@@ -133,3 +133,7 @@ bin/
 *.bat
 *.dist
 *.*build
+
+# OS/NAS cruft
+Thumbs.db
+@eaDir/
