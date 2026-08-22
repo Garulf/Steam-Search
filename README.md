@@ -3,18 +3,29 @@
 
 # Steam Search
 
+The fastest way to launch your Steam games. Fully local, and instant.
+
 [![CI](https://img.shields.io/github/actions/workflow/status/Garulf/Steam-Search/release.yml)](https://github.com/Garulf/Steam-Search/actions/workflows/release.yml) [![Release](https://img.shields.io/github/v/release/Garulf/Steam-Search)](https://github.com/Garulf/Steam-Search/releases/latest) [![License](https://img.shields.io/github/license/Garulf/Steam-Search)](https://github.com/Garulf/Steam-Search/blob/main/LICENSE)
 
 [![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-support-FFDD00?logo=buy-me-a-coffee)](https://www.buymeacoffee.com/garulf) [![Sponsor](https://img.shields.io/github/sponsors/Garulf?logo=githubsponsors)](https://github.com/sponsors/Garulf)
 
 ## Features
 
-* *NEW* Ludacris speeds! Steam-Search is much more efficent! :rocket:
-* *NEW* Icons and other game assets work! Icons are fixed and game box art shows in preview pane with `F1`
-* Launch games straight from your launcher
-* Multiple library support
-* Minimal setup and configuration needed (Steam search automatically locates your Steam library!)
-* "Non-Steam Game" shortcut support!
+* **Instant, fully local search.** Your library is read straight from Steam on disk. No web requests, no API keys, no waiting.
+* **Launch from the launcher.** Hit Enter on a result and the game starts; Steam opens if it isn't running.
+* **Fuzzy matching.** Uses Flow Launcher's own matcher, so `st eternal` finds DOOM Eternal and minor typos still hit.
+* **Icons and box art.** Results show each game's icon, and `F1` previews its library artwork.
+* **Every library folder.** Games installed across multiple drives and library folders all show up.
+* **Non-Steam shortcuts too.** Anything you've added to Steam as a shortcut is searchable alongside your Steam games.
+* **Zero configuration.** Your Steam install is located automatically; install the plugin and start typing.
+
+## Usage
+
+Type `st` followed by a game name:
+
+```
+st doom
+```
 
 ![Steam Search results in Flow Launcher](.github/assets/screenshot.png)
 
