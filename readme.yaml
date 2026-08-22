@@ -1,0 +1,15 @@
+# readwright configuration. All keys are optional; autodetected values are shown.
+# Keys: template, templates, output, strict, allow_exec, screenshots{dir,width,style}, badges,
+#       badges_style, badges_custom, donate, donate_handles, related, project{...}, vars.
+# Run `readwright badges` / `readwright blocks` to list badge presets and template blocks.
+template: docs/README.md.j2
+project:
+  name: Steam Search
+  owner: Garulf
+  repo: Steam-Search
+  license: MIT
+badges: []
+donate: [buymeacoffee, github-sponsors]
+donate_handles:
+  buymeacoffee: garulf
+  github-sponsors: Garulf
