@@ -33,17 +33,18 @@ st doom
 
 ### Flow Launcher
 
-![Flow Launcher install screenshot](.github/assets/install.png)
+In Flow Launcher, type:
 
-Simply type `pm install steam search` to have the plugin installed
+```
+pm install steam search
+```
 
-### Manual Installation
+![Flow Launcher plugin manager installing Steam Search](.github/assets/install.png)
 
-Unzip [Steam-Search.zip](https://github.com/Garulf/Steam-Search/releases/latest) to your launchers plugin directory.
+### Manual installation
 
-| Launcher      | Plugin Path                      |
-|---------------|----------------------------------|
-| Flow Launcher | `%appdata%\FlowLauncher\Plugins` |
+Download `Steam-Search.zip` from the [latest release](https://github.com/Garulf/Steam-Search/releases/latest) and unzip it into
+`%appdata%\FlowLauncher\Plugins`, then restart Flow Launcher.
 
 ## Changelog
 
