@@ -12,7 +12,7 @@ The fastest way to launch your Steam games. Fully local, and instant.
 ## Features
 
 * **Instant, fully local search.** Your library is read straight from Steam on disk. No web requests, no API keys, no waiting.
-* **Launch from the launcher.** Hit Enter on a result and the game starts; Steam opens if it isn't running.
+* **One keystroke to play.** Hit Enter on a result and the game starts, no trip through the Steam client first.
 * **Fuzzy matching.** Uses Flow Launcher's own matcher, so `st eternal` finds DOOM Eternal and minor typos still hit.
 * **Icons and box art.** Results show each game's icon, and `F1` previews its library artwork.
 * **Every library folder.** Games installed across multiple drives and library folders all show up.
