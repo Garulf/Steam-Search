@@ -11,13 +11,13 @@ The fastest way to launch your Steam games. Fully local, and instant.
 
 ## Features
 
-* **Instant, fully local search.** Your library is read straight from Steam on disk. No web requests, no API keys, no waiting.
-* **Search, click, play.** Pick a result and the game launches. No trip through the Steam client first.
-* **Fuzzy matching.** Uses Flow Launcher's own matcher, so `st eternal` finds DOOM Eternal and minor typos still hit.
-* **Icons and box art.** Results show each game's icon, and `F1` previews its library artwork.
-* **Every library folder.** Games installed across multiple drives and library folders all show up.
-* **Non-Steam shortcuts too.** Anything you've added to Steam as a shortcut is searchable alongside your Steam games.
-* **Zero configuration.** Your Steam install is located automatically; install the plugin and start typing.
+* **Search, click, play.** Pick a result and the game launches.
+* **Fully local.** Reads your library straight from disk. No web requests, no API keys.
+* **Fuzzy matching.** `st eternal` finds DOOM Eternal; typos are forgiven.
+* **Icons and box art.** Game icons in results, library artwork on `F1`.
+* **All your libraries.** Every Steam library folder, across every drive.
+* **Non-Steam shortcuts.** Searchable right alongside your Steam games.
+* **Zero configuration.** Finds your Steam install on its own.
 
 ## Usage
 
