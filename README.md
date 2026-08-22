@@ -13,7 +13,7 @@ The fastest way to launch your Steam games. Fully local, and instant.
 
 * **Search, click, play.** Pick a result and the game launches.
 * **Fully local.** Reads your library straight from disk. No web requests, no API keys.
-* **Fuzzy matching.** `st eternal` finds DOOM Eternal; typos are forgiven.
+* **Fuzzy matching.** `st rdr2` finds Red Dead Redemption 2.
 * **Icons and box art.** Game icons in results, library artwork on `F1`.
 * **All your libraries.** Every Steam library folder, across every drive.
 * **Non-Steam shortcuts.** Searchable right alongside your Steam games.
