@@ -13,8 +13,7 @@ banner:
 screenshots:
   dir: .github/assets
 badges: [ci, github-release, license]
-donate: [buymeacoffee, kofi, github-sponsors]
+donate: [buymeacoffee, github-sponsors]
 donate_handles:
   buymeacoffee: garulf
-  kofi: garulf
   github-sponsors: Garulf

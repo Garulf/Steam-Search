@@ -5,7 +5,7 @@
 
 [![CI](https://img.shields.io/github/actions/workflow/status/Garulf/Steam-Search/release.yml)](https://github.com/Garulf/Steam-Search/actions/workflows/release.yml) [![Release](https://img.shields.io/github/v/release/Garulf/Steam-Search)](https://github.com/Garulf/Steam-Search/releases/latest) [![License](https://img.shields.io/github/license/Garulf/Steam-Search)](https://github.com/Garulf/Steam-Search/blob/main/LICENSE)
 
-[![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-support-FFDD00?logo=buy-me-a-coffee)](https://www.buymeacoffee.com/garulf) [![Ko-fi](https://img.shields.io/badge/Ko--fi-support-FF5E5B?logo=ko-fi)](https://ko-fi.com/garulf) [![Sponsor](https://img.shields.io/github/sponsors/Garulf?logo=githubsponsors)](https://github.com/sponsors/Garulf)
+[![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-support-FFDD00?logo=buy-me-a-coffee)](https://www.buymeacoffee.com/garulf) [![Sponsor](https://img.shields.io/github/sponsors/Garulf?logo=githubsponsors)](https://github.com/sponsors/Garulf)
 
 ## Features
 
