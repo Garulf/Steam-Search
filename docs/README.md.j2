@@ -1,8 +1,6 @@
 {% extends "base.md.j2" %}
 
 {% block usage %}
-![hero-image](.github/assets/hero.png)
-
 ## Features
 
 * *NEW* Ludacris speeds! Steam-Search is much more efficent! :rocket:
@@ -12,24 +10,29 @@
 * Minimal setup and configuration needed (Steam search automatically locates your Steam library!)
 * "Non-Steam Game" shortcut support!
 
-![screenshot](.github/assets/screenshot.png)
+{{ screenshot("screenshot", alt="Steam Search results in Flow Launcher") }}
 
 ## Installation
 
-### Flow Lancher
+### Flow Launcher
 
-![FLow Launcher install screenshot](.github/assets/install.png)
+{{ screenshot("install", alt="Flow Launcher install screenshot") }}
 
 Simply type `pm install steam search` to have the plugin installed
 
 ### Manual Installation
 
-Unzip [Steam-Search.zip](https://github.com/Garulf/Steam-Search/releases/latest) to your launchers plugin directory.
+Unzip [Steam-Search.zip]({{ project.url }}/releases/latest) to your launchers plugin directory.
 
 | Launcher      | Plugin Path                      |
 |---------------|----------------------------------|
 | Flow Launcher | `%appdata%\FlowLauncher\Plugins` |
 
+## Changelog
+
+{{ changelog(3) }}
+
+See [CHANGELOG.md](CHANGELOG.md) for the full history.
 {% endblock %}
 
 {% block screenshots %}{% endblock %}
