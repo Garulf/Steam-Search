@@ -1,5 +1,11 @@
 {% extends "base.md.j2" %}
 
+{% block header %}
+# {{ project.name }}
+
+{{ banner() }}
+{% endblock %}
+
 {% block usage %}
 ## Features
 
