@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<title>Steam Search Ad</title>
+<style>
+  @font-face { font-family: 'Selawik'; font-weight: 400; src: url('fonts/selawk.woff2') format('woff2'); }
+  @font-face { font-family: 'Selawik'; font-weight: 700; src: url('fonts/selawkb.woff2') format('woff2'); }
+  @font-face { font-family: 'JetBrains Mono'; font-weight: 500; src: url('fonts/JetBrainsMono-Medium.woff2') format('woff2'); }
+
+  :root {
+    --bg: #0a0f16;
+    --ink: #f3f6fa;
+    --dim: #5b6878;
+    --muted: #9aa7b6;
+    --blue: #1a9fff;
+    --sky: #66c0f4;
+    --card: rgba(22, 32, 45, 0.82);
+    --line: rgba(102, 192, 244, 0.16);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 1920px; height: 1080px; overflow: hidden; background: var(--bg); }
+  body { font-family: 'Selawik', 'Segoe UI', sans-serif; color: var(--ink); }
+
+  #stage { position: relative; width: 1920px; height: 1080px; overflow: hidden; background: var(--bg); }
+  .abs { position: absolute; left: 0; top: 0; will-change: transform, opacity; }
+
+  /* Background: slow-drifting glows over a faint dot grid. */
+  .glow { position: absolute; border-radius: 50%; filter: blur(40px); }
+  #glowA { width: 1400px; height: 1400px; left: 900px; top: -700px;
+           background: radial-gradient(circle, rgba(26,159,255,0.30), rgba(26,159,255,0) 65%); }
+  #glowB { width: 1200px; height: 1200px; left: -500px; top: 400px;
+           background: radial-gradient(circle, rgba(102,192,244,0.16), rgba(102,192,244,0) 65%); }
+  #grid { position: absolute; inset: 0;
+          background-image: radial-gradient(rgba(255,255,255,0.07) 1.2px, transparent 1.3px);
+          background-size: 36px 36px;
+          -webkit-mask-image: radial-gradient(ellipse 80% 70% at 60% 40%, #000 30%, transparent 80%); }
+
+  /* Intro */
+  #intro { width: 1920px; height: 1080px; display: flex; flex-direction: column; align-items: center; justify-content: center; }
+  #introIcon { width: 168px; height: 168px; border-radius: 50%;
+               box-shadow: 0 0 0 1px rgba(255,255,255,0.08), 0 30px 80px rgba(26,159,255,0.35); }
+  #introTitle { font-size: 128px; font-weight: 700; letter-spacing: -2px; margin-top: 44px; }
+  #introTag { font-size: 38px; color: var(--muted); margin-top: 18px; }
+
+  /* Brand bug */
+  #brand { left: 72px; top: 60px; display: flex; align-items: center; gap: 16px; font-size: 30px; font-weight: 700; }
+  #brand img { width: 46px; height: 46px; }
+
+  /* Launcher: sized to the flow-render PNG's natural pixels, then scaled. */
+  .launcher { transform-origin: 0 0; }
+  .launcher img.state { display: block; }
+  #flash { left: 93px; top: 485px; width: 1040px; height: 114px; border-radius: 14px;
+           background: rgba(102,192,244,0.22); box-shadow: 0 0 0 3px rgba(102,192,244,0.55) inset; }
+
+  /* Scene 2 copy */
+  .word { left: 150px; font-size: 148px; font-weight: 700; letter-spacing: -3px; line-height: 1; }
+  .caption { left: 154px; top: 790px; font-size: 36px; color: var(--muted); width: 820px; line-height: 1.35; }
+  .caption code, .mono { font-family: 'JetBrains Mono', monospace; font-size: 0.9em; color: var(--sky); }
+
+  /* Launch card */
+  #launch { left: 1005px; top: 380px; width: 640px; padding: 40px 44px; border-radius: 22px;
+            background: var(--card); border: 1px solid var(--line);
+            box-shadow: 0 40px 100px rgba(0,0,0,0.55); display: flex; gap: 34px; align-items: center; }
+  #launch img { width: 128px; height: 128px; border-radius: 12px; }
+  #launch .k { font-size: 24px; letter-spacing: 3px; text-transform: uppercase; color: var(--sky); }
+  #launch .t { font-size: 50px; font-weight: 700; margin-top: 6px; }
+  #launch .bar { margin-top: 22px; height: 8px; width: 380px; border-radius: 4px; background: rgba(255,255,255,0.1); overflow: hidden; }
+  #launchFill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--blue), var(--sky)); border-radius: 4px; }
+
+  /* Scene 3 copy */
+  .eyebrow { font-size: 28px; letter-spacing: 4px; text-transform: uppercase; color: var(--sky); font-weight: 700; }
+  #fzCopy { left: 150px; top: 330px; width: 700px; }
+  #fzCopy h2 { font-size: 132px; font-weight: 700; letter-spacing: -3px; line-height: 1.02; margin-top: 18px; }
+  #fzCopy p { font-size: 36px; color: var(--muted); margin-top: 34px; line-height: 1.4; }
+
+  /* Features */
+  #featHead { left: 0; top: 150px; width: 1920px; text-align: center; }
+  #featHead h2 { font-size: 92px; font-weight: 700; letter-spacing: -2px; margin-top: 14px; }
+  .card { width: 490px; height: 250px; padding: 30px 36px; border-radius: 22px; background: var(--card);
+          border: 1px solid var(--line); box-shadow: 0 24px 60px rgba(0,0,0,0.35); }
+  .card svg { width: 46px; height: 46px; stroke: var(--sky); fill: none; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+  .card h3 { font-size: 38px; font-weight: 700; margin-top: 12px; }
+  .card p { font-size: 25px; color: var(--muted); margin-top: 8px; line-height: 1.35; }
+
+  /* Outro */
+  #outHead { left: 0; top: 150px; width: 1920px; text-align: center; }
+  #outHead h2 { font-size: 110px; font-weight: 700; letter-spacing: -2px; margin-top: 14px; }
+  #outCta { left: 0; top: 690px; width: 1920px; display: flex; flex-direction: column; align-items: center; gap: 26px; }
+  #outCta .sub { font-size: 36px; color: var(--muted); }
+  #outCta .pill { font-family: 'JetBrains Mono', monospace; font-size: 30px; color: var(--ink);
+                  padding: 16px 30px; border-radius: 999px; border: 1px solid var(--line); background: var(--card); }
+  #outCta .pill span { color: var(--sky); }
+</style>
+</head>
+<body>
+<div id="stage">
+  <div class="glow abs" id="glowA"></div>
+  <div class="glow abs" id="glowB"></div>
+  <div id="grid"></div>
+
+  <!-- 1. Intro -->
+  <div class="abs" id="intro">
+    <img id="introIcon" src="../data/icon.png" alt="">
+    <div id="introTitle">Steam Search</div>
+    <div id="introTag">The fastest way to launch your Steam games.</div>
+  </div>
+
+  <div class="abs" id="brand"><img src="../data/icon.png" alt="">Steam Search</div>
+
+  <!-- 2. Search. Click. Play. -->
+  <div class="abs word" id="wSearch" style="top:250px">Search.</div>
+  <div class="abs word" id="wClick" style="top:420px">Click.</div>
+  <div class="abs word" id="wPlay" style="top:590px">Play.</div>
+  <div class="abs caption" id="c1">Type <code>st</code> and a game name.</div>
+  <div class="abs caption" id="c2">Pick one with the arrow keys or mouse.</div>
+  <div class="abs caption" id="c3">The game launches. That's it.</div>
+
+  <div class="abs launcher" id="L1"><img class="state" alt=""><div class="abs" id="flash"></div></div>
+
+  <div class="abs" id="launch">
+    <img src="icons/doom-eternal.png" alt="">
+    <div>
+      <div class="k">Launching</div>
+      <div class="t">DOOM Eternal</div>
+      <div class="bar"><div id="launchFill"></div></div>
+    </div>
+  </div>
+
+  <!-- 3. Fuzzy matching -->
+  <div class="abs" id="fzCopy">
+    <div class="eyebrow">Fuzzy matching</div>
+    <h2>Type less.</h2>
+    <p><span class="mono">st d3bfg</span> finds<br>DOOM 3: BFG Edition.</p>
+  </div>
+  <div class="abs launcher" id="L2"><img class="state" alt=""></div>
+
+  <!-- 4. Features -->
+  <div class="abs" id="featHead">
+    <div class="eyebrow">Fully local. Instant.</div>
+    <h2>Your whole library, one keystroke away.</h2>
+  </div>
+  <div class="abs card" id="f1" style="left:170px;top:410px">
+    <svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 14h18"/><circle cx="7" cy="17" r="0.6"/><circle cx="10" cy="17" r="0.6"/></svg>
+    <h3>Fully local</h3><p>Reads your library straight from disk. No API keys.</p>
+  </div>
+  <div class="abs card" id="f2" style="left:715px;top:410px">
+    <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+    <h3>Fuzzy matching</h3><p><span class="mono">st rdr2</span> finds Red Dead Redemption&nbsp;2.</p>
+  </div>
+  <div class="abs card" id="f3" style="left:1260px;top:410px">
+    <svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="9" cy="9" r="2"/><path d="M21 15l-5-5L5 21"/></svg>
+    <h3>Icons and box art</h3><p>Game icons in results, library artwork on F1.</p>
+  </div>
+  <div class="abs card" id="f4" style="left:170px;top:690px">
+    <svg viewBox="0 0 24 24"><path d="M12 3l9 5-9 5-9-5 9-5z"/><path d="M3 13l9 5 9-5"/></svg>
+    <h3>All your libraries</h3><p>Every Steam library folder, across every drive.</p>
+  </div>
+  <div class="abs card" id="f5" style="left:715px;top:690px">
+    <svg viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.66 0l3-3a4 4 0 0 0-5.66-5.66l-1 1"/><path d="M14 10a4 4 0 0 0-5.66 0l-3 3a4 4 0 0 0 5.66 5.66l1-1"/></svg>
+    <h3>Non-Steam shortcuts</h3><p>Searchable right alongside your Steam games.</p>
+  </div>
+  <div class="abs card" id="f6" style="left:1260px;top:690px">
+    <svg viewBox="0 0 24 24"><path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z"/></svg>
+    <h3>Zero configuration</h3><p>Finds your Steam install on its own.</p>
+  </div>
+
+  <!-- 5. Outro -->
+  <div class="abs" id="outHead">
+    <div class="eyebrow">Free and open source</div>
+    <h2>Get Steam Search</h2>
+  </div>
+  <div class="abs launcher" id="L3"><img class="state" alt=""></div>
+  <div class="abs" id="outCta">
+    <div class="sub">A plugin for Flow Launcher</div>
+    <div class="pill"><span>github.com/</span>Garulf/Steam-Search</div>
+  </div>
+</div>
+
+<script>
+// ---------------------------------------------------------------------------
+// Deterministic timeline: seek(t) sets every element's state for time t (s),
+// so frames can be captured one by one without relying on real-time playback.
+// ---------------------------------------------------------------------------
+const DURATION = 23.0;
+const SCALE = 0.78;           // flow-render PNGs are 2x; show them at 0.78 of that
+
+const E = {
+  lin: t => t,
+  out: t => 1 - Math.pow(1 - t, 3),
+  inOut: t => t < .5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2,
+  in: t => t * t * t,
+  back: t => { const c1 = 1.4, c3 = c1 + 1; return 1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2); },
+};
+
+const tracks = [];
+// keys: [[time, {props}, easing-into-this-key]]
+function A(id, keys) { tracks.push({ el: document.getElementById(id), keys }); }
+
+function sample(keys, t) {
+  if (t <= keys[0][0]) return keys[0][1];
+  for (let i = 1; i < keys.length; i++) {
+    const [t1, p1, ez] = keys[i];
+    if (t <= t1) {
+      const [t0, p0] = keys[i - 1];
+      const k = (E[ez || 'out'])((t - t0) / Math.max(1e-6, t1 - t0));
+      const out = {};
+      for (const key of new Set([...Object.keys(p0), ...Object.keys(p1)])) {
+        const a = p0[key] ?? p1[key], b = p1[key] ?? p0[key];
+        out[key] = a + (b - a) * k;
+      }
+      return out;
+    }
+  }
+  return keys[keys.length - 1][1];
+}
+
+function apply(el, p, base) {
+  const o = p.o ?? 1;
+  el.style.opacity = o;
+  el.style.visibility = o <= 0.001 ? 'hidden' : 'visible';
+  const s = (p.s ?? 1) * (base || 1);
+  el.style.transform =
+    `translate(${p.x ?? 0}px, ${p.y ?? 0}px) perspective(2000px) rotateY(${p.ry ?? 0}deg) rotateX(${p.rx ?? 0}deg) scale(${s})`;
+  el.style.filter = p.blur ? `blur(${p.blur}px)` : '';
+  if (p.w !== undefined) el.style.width = p.w + '%';
+}
+
+// --- launcher state sequences (flow-render renders) ------------------------
+const launchers = {};
+function L(id, seq) { launchers[id] = { img: document.querySelector(`#${id} img.state`), seq }; }
+function typeSeq(start, names, step) { return names.map((n, i) => [start + i * step, n]); }
+
+function launcherFrame(id, t) {
+  const { img, seq } = launchers[id];
+  let cur = seq[0];
+  for (const s of seq) if (s[0] <= t) cur = s;
+  const held = t - cur[0];
+  const caret = held < 0.45 || Math.floor((held - 0.45) / 0.5) % 2 === 1;
+  const src = `build/states/${cur[1]}${caret ? '' : '.nocaret'}.png`;
+  if (!img.src.endsWith(src)) img.src = src;
+}
+
+// ---------------------------------------------------------------------------
+// Scene timings
+// ---------------------------------------------------------------------------
+// Background drift, whole duration
+A('glowA', [[0, { x: 0, y: 0 }], [DURATION, { x: -380, y: 160 }, 'inOut']]);
+A('glowB', [[0, { x: 0, y: 0 }], [DURATION, { x: 320, y: -140 }, 'inOut']]);
+
+// 1. Intro 0 - 2.8
+A('introIcon', [[0.1, { o: 0, s: 0.6 }], [0.8, { o: 1, s: 1 }, 'back']]);
+A('introTitle', [[0.35, { o: 0, y: 30 }], [1.0, { o: 1, y: 0 }]]);
+A('introTag', [[0.7, { o: 0, y: 24 }], [1.3, { o: 1, y: 0 }]]);
+A('intro', [[2.3, { o: 1, y: 0, s: 1 }], [2.8, { o: 0, y: -40, s: 0.97 }, 'in']]);
+
+A('brand', [[2.6, { o: 0, x: -20 }], [3.1, { o: 1, x: 0 }], [17.4, { o: 1 }], [17.8, { o: 0 }, 'in']]);
+
+// 2. Search. Click. Play.  2.6 - 10.0
+const L1X = 870, L1Y = 190;
+A('L1', [
+  [2.6, { o: 0, x: L1X + 60, y: L1Y + 40, ry: -14 }],
+  [3.3, { o: 1, x: L1X, y: L1Y, ry: -5 }],
+  [7.25, { o: 1, x: L1X, y: L1Y, ry: -5, s: 1 }],
+  [7.7, { o: 0, x: L1X + 20, y: L1Y + 20, ry: -5, s: 0.94 }, 'in'],
+]);
+L('L1', [
+  [2.6, 'k3'],
+  ...typeSeq(3.2, ['doom-d', 'doom-do', 'doom-doo', 'doom-doom'], 0.15),
+  ...typeSeq(5.7, ['doom-sel1', 'doom-sel2', 'doom-sel3'], 0.32),
+]);
+A('flash', [[6.9, { o: 0 }], [7.0, { o: 1 }, 'lin'], [7.35, { o: 0 }, 'lin']]);
+
+const dimWord = (id, on, next, end) => A(id, [
+  [on, { o: 0, y: 40 }], [on + 0.45, { o: 1, y: 0 }],
+  ...(next ? [[next, { o: 1 }], [next + 0.3, { o: 0.28 }]] : []),
+  [end, { o: next ? 0.28 : 1, y: 0 }], [end + 0.4, { o: 0, y: -30 }, 'in'],
+]);
+dimWord('wSearch', 3.0, 5.4, 9.6);
+dimWord('wClick', 5.4, 6.95, 9.6);
+dimWord('wPlay', 6.95, null, 9.6);
+const cap = (id, on, off) => A(id, [[on, { o: 0, y: 16 }], [on + 0.35, { o: 1, y: 0 }], [off, { o: 1, y: 0 }], [off + 0.3, { o: 0, y: -10 }, 'in']]);
+cap('c1', 3.1, 5.3);
+cap('c2', 5.55, 6.9);
+cap('c3', 7.1, 9.55);
+
+A('launch', [[7.5, { o: 0, y: 30, s: 0.94 }], [8.0, { o: 1, y: 0, s: 1 }, 'back'], [9.5, { o: 1, y: 0 }], [9.95, { o: 0, y: -30 }, 'in']]);
+A('launchFill', [[7.9, { w: 0 }], [9.3, { w: 100 }, 'inOut']]);
+
+// 3. Fuzzy matching  10.0 - 14.2
+const L2X = 870, L2Y = 330;
+A('fzCopy', [[10.1, { o: 0, y: 40 }], [10.6, { o: 1, y: 0 }], [13.7, { o: 1, y: 0 }], [14.1, { o: 0, y: -30 }, 'in']]);
+A('L2', [
+  [10.2, { o: 0, x: L2X + 60, y: L2Y + 30, ry: -14 }],
+  [10.8, { o: 1, x: L2X, y: L2Y, ry: -5 }],
+  [13.7, { o: 1, x: L2X, y: L2Y, ry: -5 }],
+  [14.1, { o: 0, x: L2X + 20, y: L2Y - 20, ry: -5 }, 'in'],
+]);
+L('L2', [[10.2, 'k3'], ...typeSeq(11.0, ['fz-d', 'fz-d3', 'fz-d3b', 'fz-d3bf', 'fz-d3bfg'], 0.16)]);
+
+// 4. Features  14.2 - 17.8
+A('featHead', [[14.2, { o: 0, y: 30 }], [14.7, { o: 1, y: 0 }], [17.4, { o: 1, y: 0 }], [17.8, { o: 0, y: -30 }, 'in']]);
+['f1', 'f2', 'f3', 'f4', 'f5', 'f6'].forEach((id, i) => {
+  const on = 14.5 + i * 0.12;
+  A(id, [[on, { o: 0, y: 40, s: 0.96 }], [on + 0.5, { o: 1, y: 0, s: 1 }, 'back'], [17.35, { o: 1, y: 0 }], [17.75, { o: 0, y: 30 }, 'in']]);
+});
+
+// 5. Outro  17.8 - 23
+const L3X = (1920 - 1226 * SCALE) / 2, L3Y = 390;
+A('outHead', [[17.9, { o: 0, y: 30 }], [18.4, { o: 1, y: 0 }]]);
+A('L3', [[18.0, { o: 0, x: L3X, y: L3Y + 40 }], [18.6, { o: 1, x: L3X, y: L3Y }]]);
+L('L3', [[18.0, 'pm-01'], ...typeSeq(18.7, Array.from({ length: 23 }, (_, i) => `pm-${String(i + 1).padStart(2, '0')}`), 0.065)]);
+A('outCta', [[20.4, { o: 0, y: 24 }], [20.9, { o: 1, y: 0 }]]);
+
+// ---------------------------------------------------------------------------
+const launcherIds = new Set(['L1', 'L2', 'L3']);
+window.DURATION = DURATION;
+window.seek = function (t) {
+  for (const { el, keys } of tracks) apply(el, sample(keys, t), launcherIds.has(el.id) ? SCALE : 1);
+  for (const id in launchers) launcherFrame(id, t);
+  return Promise.all([...document.querySelectorAll('img.state')].map(img => img.decode().catch(() => {})));
+};
+
+// Preload every launcher state so frame captures never wait on the network.
+window.ready = (async () => {
+  const names = new Set();
+  for (const id in launchers) for (const [, n] of launchers[id].seq) names.add(n);
+  await Promise.all([...names].flatMap(n => ['', '.nocaret'].map(v => {
+    const img = new Image(); img.src = `build/states/${n}${v}.png`; return img.decode().catch(() => {});
+  })));
+  await document.fonts.ready;
+  await window.seek(0);
+})();
+
+// Opened directly in a browser: play it in real time, looping.
+if (!new URLSearchParams(location.search).has('capture')) {
+  window.ready.then(() => {
+    const t0 = performance.now();
+    const tick = () => { window.seek(((performance.now() - t0) / 1000) % DURATION); requestAnimationFrame(tick); };
+    tick();
+  });
+}
+</script>
+</body>
+</html>
