@@ -66,9 +66,6 @@
   #launch .k { font-size: 24px; letter-spacing: 3px; text-transform: uppercase; color: var(--sky); }
   #launch .t { font-size: 50px; font-weight: 700; margin-top: 6px; }
   #launch .bar { margin-top: 22px; height: 8px; width: 380px; border-radius: 4px; background: rgba(255,255,255,0.1); overflow: hidden; }
-  /* Game launch clip (optional, see prepare_clip.py) */
-  #game { width: 1920px; height: 1080px; background: #000; transform-origin: 0 0; overflow: hidden; }
-  #gameFrame { width: 1920px; height: 1080px; display: block; object-fit: cover; }
   #launchFill { height: 100%; width: 0%; background: linear-gradient(90deg, var(--blue), var(--sky)); border-radius: 4px; }
 
   /* Scene 3 copy */
@@ -130,8 +127,6 @@
     </div>
   </div>
 
-  <div class="abs" id="game"><img id="gameFrame" alt=""></div>
-
   <!-- 3. Fuzzy matching -->
   <div class="abs" id="fzCopy">
     <div class="eyebrow">Fuzzy matching</div>
@@ -182,24 +177,12 @@
   </div>
 </div>
 
-<!-- Written by prepare_clip.py; absent means no launch clip. -->
-<script src="build/clip/clip.js"></script>
 <script>
 // ---------------------------------------------------------------------------
 // Deterministic timeline: seek(t) sets every element's state for time t (s),
 // so frames can be captured one by one without relying on real-time playback.
 // ---------------------------------------------------------------------------
-// Optional game-launch clip: plays full screen right after the launch card,
-// and everything from the fuzzy-matching scene on is pushed back to make room.
-const CLIP = window.CLIP || null;
-const CLIP_START = 9.8;                         // clip's first frame is on screen
-const CLIP_END = CLIP ? CLIP_START + CLIP.frames / CLIP.fps : 0;
-const SHIFT_FROM = 9.99;                        // scenes starting here move back
-const SHIFT = CLIP ? CLIP_END + 0.35 - SHIFT_FROM : 0;
-const sh = t => (t >= SHIFT_FROM ? t + SHIFT : t);
-
-const BASE_DURATION = 23.0;
-const DURATION = sh(BASE_DURATION);
+const DURATION = 23.0;
 const SCALE = 0.78;           // flow-render PNGs are 2x; show them at 0.78 of that
 
 const E = {
@@ -212,9 +195,7 @@ const E = {
 
 const tracks = [];
 // keys: [[time, {props}, easing-into-this-key]]
-function A(id, keys, { raw = false } = {}) {
-  tracks.push({ el: document.getElementById(id), keys: raw ? keys : keys.map(([t, ...rest]) => [sh(t), ...rest]) });
-}
+function A(id, keys) { tracks.push({ el: document.getElementById(id), keys }); }
 
 function sample(keys, t) {
   if (t <= keys[0][0]) return keys[0][1];
@@ -247,7 +228,7 @@ function apply(el, p, base) {
 
 // --- launcher state sequences (flow-render renders) ------------------------
 const launchers = {};
-function L(id, seq) { launchers[id] = { img: document.querySelector(`#${id} img.state`), seq: seq.map(([t, n]) => [sh(t), n]) }; }
+function L(id, seq) { launchers[id] = { img: document.querySelector(`#${id} img.state`), seq }; }
 function typeSeq(start, names, step) { return names.map((n, i) => [start + i * step, n]); }
 
 function launcherFrame(id, t) {
@@ -264,8 +245,8 @@ function launcherFrame(id, t) {
 // Scene timings
 // ---------------------------------------------------------------------------
 // Background drift, whole duration
-A('glowA', [[0, { x: 0, y: 0 }], [BASE_DURATION, { x: -380, y: 160 }, 'inOut']]);
-A('glowB', [[0, { x: 0, y: 0 }], [BASE_DURATION, { x: 320, y: -140 }, 'inOut']]);
+A('glowA', [[0, { x: 0, y: 0 }], [DURATION, { x: -380, y: 160 }, 'inOut']]);
+A('glowB', [[0, { x: 0, y: 0 }], [DURATION, { x: 320, y: -140 }, 'inOut']]);
 
 // 1. Intro 0 - 2.8
 A('introIcon', [[0.1, { o: 0, s: 0.6 }], [0.8, { o: 1, s: 1 }, 'back']]);
@@ -295,9 +276,9 @@ const dimWord = (id, on, next, end) => A(id, [
   ...(next ? [[next, { o: 1 }], [next + 0.3, { o: 0.28 }]] : []),
   [end, { o: next ? 0.28 : 1, y: 0 }], [end + 0.4, { o: 0, y: -30 }, 'in'],
 ]);
-dimWord('wSearch', 3.0, 5.4, 9.55);
-dimWord('wClick', 5.4, 6.95, 9.55);
-dimWord('wPlay', 6.95, null, 9.55);
+dimWord('wSearch', 3.0, 5.4, 9.6);
+dimWord('wClick', 5.4, 6.95, 9.6);
+dimWord('wPlay', 6.95, null, 9.6);
 const cap = (id, on, off) => A(id, [[on, { o: 0, y: 16 }], [on + 0.35, { o: 1, y: 0 }], [off, { o: 1, y: 0 }], [off + 0.3, { o: 0, y: -10 }, 'in']]);
 cap('c1', 3.1, 5.3);
 cap('c2', 5.55, 6.9);
@@ -305,29 +286,6 @@ cap('c3', 7.1, 9.55);
 
 A('launch', [[7.5, { o: 0, y: 30, s: 0.94 }], [8.0, { o: 1, y: 0, s: 1 }, 'back'], [9.5, { o: 1, y: 0 }], [9.95, { o: 0, y: -30 }, 'in']]);
 A('launchFill', [[7.9, { w: 0 }], [9.3, { w: 100 }, 'inOut']]);
-
-// Launch clip: a black window grows out of the launch card, the game plays
-// full screen, then fades into the next scene.
-if (CLIP) {
-  A('game', [
-    [9.3, { o: 0, x: 1005, y: 380, s: 1 / 3 }],
-    [9.4, { o: 1, x: 1005, y: 380, s: 1 / 3 }, 'lin'],
-    [CLIP_START, { o: 1, x: 0, y: 0, s: 1 }, 'inOut'],
-    [CLIP_END, { o: 1, x: 0, y: 0, s: 1 }],
-    [CLIP_END + 0.35, { o: 0, x: 0, y: 0, s: 1 }, 'in'],
-  ], { raw: true });
-  A('gameFrame', [[CLIP_START - 0.1, { o: 0 }], [CLIP_START + 0.25, { o: 1 }, 'lin']], { raw: true });
-} else {
-  A('game', [[0, { o: 0 }]], { raw: true });
-}
-
-function clipFrame(t) {
-  if (!CLIP) return;
-  const i = Math.min(CLIP.frames, Math.max(1, Math.floor((t - CLIP_START) * CLIP.fps) + 1));
-  const src = `build/clip/${String(i).padStart(4, '0')}.jpg`;
-  const img = document.getElementById('gameFrame');
-  if (!img.src.endsWith(src)) img.src = src;
-}
 
 // 3. Fuzzy matching  10.0 - 14.2
 const L2X = 870, L2Y = 330;
@@ -360,8 +318,7 @@ window.DURATION = DURATION;
 window.seek = function (t) {
   for (const { el, keys } of tracks) apply(el, sample(keys, t), launcherIds.has(el.id) ? SCALE : 1);
   for (const id in launchers) launcherFrame(id, t);
-  clipFrame(t);
-  return Promise.all([...document.querySelectorAll('img.state, #gameFrame')].map(img => img.decode().catch(() => {})));
+  return Promise.all([...document.querySelectorAll('img.state')].map(img => img.decode().catch(() => {})));
 };
 
 // Preload every launcher state so frame captures never wait on the network.
