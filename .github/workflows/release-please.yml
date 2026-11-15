@@ -58,7 +58,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           gh release list --json tagName,isPrerelease \
-            --jq '.[] | select(.isPrerelease) | .tagName' |
+            --jq '.[] | select(.isPrerelease and (.tagName | test("-rc\\.[0-9]+$"))) | .tagName' |
           while read -r tag; do
             gh release delete "$tag" --cleanup-tag --yes
           done
@@ -112,7 +112,7 @@ jobs:
           ZIP_PATH: ${{ steps.package.outputs.zip_path }}
         run: |
           gh release list --json tagName,isPrerelease \
-            --jq '.[] | select(.isPrerelease) | .tagName' |
+            --jq '.[] | select(.isPrerelease and (.tagName | test("-rc\\.[0-9]+$"))) | .tagName' |
           while read -r tag; do
             gh release delete "$tag" --cleanup-tag --yes
           done
