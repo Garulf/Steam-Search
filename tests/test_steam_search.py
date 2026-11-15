@@ -42,6 +42,16 @@ def test_result_launches_game_and_shows_box_art(call):
     }
 
 
+def test_result_without_grid_art_has_no_preview_image(call):
+    (result,) = call("query", "retroarch")["Result"]
+    assert result["Preview"] == {
+        "PreviewImagePath": None,
+        "Description": "RetroArch",
+        "IsMedia": True,
+        "PreviewDeligate": "",
+    }
+
+
 def test_run_game_id_opens_steam_uri(call, monkeypatch):
     opened = []
     monkeypatch.setattr("webbrowser.open", opened.append)

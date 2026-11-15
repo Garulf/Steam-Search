@@ -24,7 +24,7 @@ def build_plugin(steam: Steam) -> Plugin:
                     continue
                 score = int(match_data.score)
             preview_info = PreviewInfo(
-                PreviewImagePath=str(game.grid),
+                PreviewImagePath=str(game.grid) if game.grid else None,
                 Description=game.name,
                 IsMedia=True,
                 PreviewDeligate=""

@@ -2,6 +2,7 @@ import json
 import sys
 from dataclasses import dataclass
 from pathlib import Path
+from typing import Optional
 
 import pytest
 
@@ -12,13 +13,16 @@ from steam_search import build_plugin
 class FakeApp:
     appid: str
     name: str
+    has_grid: bool = True
 
     @property
     def icon(self) -> Path:
         return Path("C:/Steam/appcache/librarycache") / self.appid / "icon.jpg"
 
     @property
-    def grid(self) -> Path:
+    def grid(self) -> Optional[Path]:
+        if not self.has_grid:
+            return None
         return Path("C:/Steam/appcache/librarycache") / self.appid / "library_600x900.jpg"
 
 
@@ -45,7 +49,7 @@ APPS = [
     FakeApp("379720", "DOOM"),
     FakeApp("228980", "Steamworks Common Redistributables"),
     FakeApp("620", "Portal 2"),
-    FakeApp("3051235328", "RetroArch"),
+    FakeApp("3051235328", "RetroArch", has_grid=False),
 ]
 
 
