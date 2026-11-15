@@ -7,7 +7,7 @@ project:
   repo: Steam-Search
   license: MIT
   tagline: The fastest way to launch your Steam games. Fully local, and instant.
-  ci_workflow: release.yml
+  ci_workflow: tests.yml
 banner:
   image: .github/assets/hero.png
   alt: Steam Search hero image
