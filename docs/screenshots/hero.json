@@ -1,0 +1,36 @@
+{
+  "keyword": "st",
+  "query": "doom",
+  "icon": "../../data/icon.png",
+  "selection": 0,
+  "query_suggestion": "",
+  "max_results": 4,
+  "results": [
+    {
+      "title": "DOOM II",
+      "subtitle": "Launch DOOM II",
+      "icon": "https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/apps/2300/ca71be262e191f3fdb2148f5ae56ff3e2ca340c2.jpg"
+    },
+    {
+      "title": "DOOM 3",
+      "subtitle": "Launch DOOM 3",
+      "icon": "https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/apps/9050/a80e3028754c85e62fcc130d3b76ddf8892699e0.jpg"
+    },
+    {
+      "title": "DOOM",
+      "subtitle": "Launch DOOM",
+      "icon": "https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/apps/379720/b6e72ff47d1990cb644700751eeeff14e0aba6dc.jpg"
+    },
+    {
+      "title": "DOOM Eternal",
+      "subtitle": "Launch DOOM Eternal",
+      "icon": "https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/apps/782330/14235f425d27ab3b83661ba14c17d22dc90e566b.jpg"
+    },
+    {
+      "title": "DOOM 3: BFG Edition",
+      "subtitle": "Launch DOOM 3: BFG Edition",
+      "icon": "https://cdn.cloudflare.steamstatic.com/steamcommunity/public/images/apps/208200/00b2e4a81c7305be9203e17010d3a5ab51f53737.jpg"
+    }
+  ],
+  "show_caret": true
+}
