@@ -1,4 +1,2 @@
-nuitka==1.1.6
-zstandard==0.18.0
-ordered-set==4.1.0
-imageio==2.22.2
+-r requirements.txt
+pytest==8.3.5

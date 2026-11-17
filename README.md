@@ -5,7 +5,7 @@
 
 The fastest way to launch your Steam games. Fully local, and instant.
 
-[![CI](https://img.shields.io/github/actions/workflow/status/Garulf/Steam-Search/release.yml)](https://github.com/Garulf/Steam-Search/actions/workflows/release.yml) [![Release](https://img.shields.io/github/v/release/Garulf/Steam-Search)](https://github.com/Garulf/Steam-Search/releases/latest) [![License](https://img.shields.io/github/license/Garulf/Steam-Search)](https://github.com/Garulf/Steam-Search/blob/main/LICENSE)
+[![CI](https://img.shields.io/github/actions/workflow/status/Garulf/Steam-Search/tests.yml)](https://github.com/Garulf/Steam-Search/actions/workflows/tests.yml) [![Release](https://img.shields.io/github/v/release/Garulf/Steam-Search)](https://github.com/Garulf/Steam-Search/releases/latest) [![License](https://img.shields.io/github/license/Garulf/Steam-Search)](https://github.com/Garulf/Steam-Search/blob/main/LICENSE)
 
 [![Buy Me a Coffee](https://img.shields.io/badge/Buy%20Me%20a%20Coffee-support-FFDD00?logo=buy-me-a-coffee)](https://www.buymeacoffee.com/garulf) [![Sponsor](https://img.shields.io/github/sponsors/Garulf?logo=githubsponsors)](https://github.com/sponsors/Garulf)
 
@@ -27,7 +27,7 @@ Type `st` followed by a game name:
 st doom
 ```
 
-![Steam Search results in Flow Launcher](.github/assets/screenshot.png)
+![Steam Search results in Flow Launcher](.github/assets/search-light.png#gh-light-mode-only)![Steam Search results in Flow Launcher](.github/assets/search-dark.png#gh-dark-mode-only)
 
 ## Installation
 
@@ -39,11 +39,11 @@ In Flow Launcher, type:
 pm install steam search
 ```
 
-![Flow Launcher plugin manager installing Steam Search](.github/assets/install.png)
+![Flow Launcher plugin manager installing Steam Search](.github/assets/install-light.png#gh-light-mode-only)![Flow Launcher plugin manager installing Steam Search](.github/assets/install-dark.png#gh-dark-mode-only)
 
 ### Manual installation
 
-Download `Steam-Search.zip` from the [latest release](https://github.com/Garulf/Steam-Search/releases/latest) and unzip it into
+Download `Steam-Search-<version>.zip` from the [latest release](https://github.com/Garulf/Steam-Search/releases/latest) and unzip it into
 `%appdata%\FlowLauncher\Plugins`, then restart Flow Launcher.
 
 ## Changelog
