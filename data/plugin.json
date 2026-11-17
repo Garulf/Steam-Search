@@ -4,7 +4,7 @@
   "Name": "Steam Search",
   "Description": "The fastest way to launch your Steam games. Fully local, and instant.",
   "Author": "Garulf",
-  "Version": "12.1.4",
+  "Version": "12.1.5",
   "Language": "python_v2",
   "Website": "https://github.com/Garulf/Steam-Search",
   "IcoPath": "icon.png",

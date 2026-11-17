@@ -2,6 +2,15 @@
 
 All notable changes to this project are documented here. Entries are taken from the [GitHub releases](https://github.com/Garulf/Steam-Search/releases).
 
+## [12.1.5](https://github.com/Garulf/Steam-Search/compare/v12.1.4...v12.1.5) (2026-11-17)
+
+
+### Bug Fixes
+
+* leave the preview image empty for games without grid art ([d32fb45](https://github.com/Garulf/Steam-Search/commit/d32fb4555c0754bcfdbf739071bdd0f2c6b40c95))
+* update pyflowlauncher to 1.2.2 ([54b408c](https://github.com/Garulf/Steam-Search/commit/54b408ce7b7bcce085cf0bfc8ae24191459ac58d))
+* update pyflowlauncher to 1.2.2 and release with release-please ([ae48d90](https://github.com/Garulf/Steam-Search/commit/ae48d906d03857c870f4efea0630816a10242cf9))
+
 ## [12.1.4](https://github.com/Garulf/Steam-Search/releases/tag/v12.1.4) - 2026-08-02
 
 - Update assets by @Garulf in https://github.com/Garulf/Steam-Search/pull/84
